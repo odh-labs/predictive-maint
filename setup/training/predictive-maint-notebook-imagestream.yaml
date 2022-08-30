@@ -1,0 +1,20 @@
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  labels:
+    opendatahub.io/notebook-image: "true"
+  annotations:
+    opendatahub.io/notebook-image-name: "Predictive Maintenance Tensorflow GPU"
+  name: tensorflow-gpu
+spec:
+  lookupPolicy:
+    local: true
+  tags:
+  - annotations:
+      openshift.io/imported-from: http://quay.io/ml-aml-workshop/tensorflow-gpu
+    from:
+      kind: DockerImage
+      name: quay.io/ml-aml-workshop/tensorflow-gpu:latest
+    name: "tensorflow-gpu-latest"
+    referencePolicy:
+      type: Source

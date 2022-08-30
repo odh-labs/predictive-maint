@@ -1,0 +1,79 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: image-predictor-consumer
+  labels:
+    app: image-predictor-consumer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: image-predictor-consumer
+  template:
+    metadata:
+      labels:
+        app: image-predictor-consumer
+    spec:
+      containers:
+        - resources:
+            requests:
+              cpu: '2'
+              memory: 4Gi
+          readinessProbe:
+            exec:
+              command:
+                - ls
+                - /app/main
+            initialDelaySeconds: 10
+            timeoutSeconds: 1
+            periodSeconds: 5
+            successThreshold: 1
+            failureThreshold: 50
+          terminationMessagePath: /dev/termination-log
+          name: image-predictor-consumer
+          livenessProbe:
+            exec:
+              command:
+                - ls
+                - /app/main
+            initialDelaySeconds: 10
+            timeoutSeconds: 1
+            periodSeconds: 5
+            successThreshold: 1
+            failureThreshold: 50
+          env:
+            - name: "MINIO_USER"
+              value: "minio"
+            - name: "MINIO_PASSWORD"
+              value: "minio123"
+            - name: "SASL_USERNAME"
+              value: "SASL_USERNAME_VALUE"
+            - name: "SASL_PASSWORD"
+              value: "SASL_PASSWORD_VALUE"
+            - name: "KAFKA_BROKER"
+              value: "KAFKA_BROKER_VALUE"
+            - name: "GROUP_ID"
+              value: "imageclassification"
+            - name: "MINIO_SERVER"
+              value: "minio-ml-workshop:9000"
+            - name: "PARALLEL_INFERENCE"
+              value: "20"
+            - name: "PROMETHEUS_SERVER"
+              value: "NA"
+            - name: "MODEL_URL"
+              value: "http://model-1-pred-demo:8000/api/v1.0/predictions"
+          imagePullPolicy: Always
+          image: quay.io/ml-aml-workshop/image-prediction-consumer:0.0.2
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 20
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 100%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600
+  

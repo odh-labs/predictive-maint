@@ -1,0 +1,131 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: Kafka
+metadata:
+  creationTimestamp: '2022-07-11T04:54:52Z'
+  generation: 1
+  managedFields:
+    - apiVersion: kafka.strimzi.io/v1beta2
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:spec':
+          .: {}
+          'f:entityOperator':
+            .: {}
+            'f:topicOperator': {}
+            'f:userOperator': {}
+          'f:kafka':
+            .: {}
+            'f:config':
+              .: {}
+              'f:default.replication.factor': {}
+              'f:inter.broker.protocol.version': {}
+              'f:min.insync.replicas': {}
+              'f:offsets.topic.replication.factor': {}
+              'f:transaction.state.log.min.isr': {}
+              'f:transaction.state.log.replication.factor': {}
+            'f:listeners': {}
+            'f:replicas': {}
+            'f:storage':
+              .: {}
+              'f:type': {}
+            'f:version': {}
+          'f:zookeeper':
+            .: {}
+            'f:replicas': {}
+            'f:storage':
+              .: {}
+              'f:type': {}
+      manager: Mozilla
+      operation: Update
+      time: '2022-07-11T04:54:52Z'
+    - apiVersion: kafka.strimzi.io/v1beta2
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:status':
+          .: {}
+          'f:clusterId': {}
+          'f:conditions': {}
+          'f:listeners': {}
+          'f:observedGeneration': {}
+      manager: okhttp
+      operation: Update
+      subresource: status
+      time: '2022-07-11T04:56:37Z'
+  name: my-cluster
+  namespace: kafka-test
+  resourceVersion: '477491'
+  uid: 022a11a6-f8b6-4fb4-908c-84e57a59bb28
+spec:
+  entityOperator:
+    topicOperator: {}
+    userOperator: {}
+  kafka:
+    config:
+      default.replication.factor: 1
+      inter.broker.protocol.version: '3.2'
+      min.insync.replicas: 1
+      offsets.topic.replication.factor: 1
+      transaction.state.log.min.isr: 1
+      transaction.state.log.replication.factor: 1
+    listeners:
+      - authentication:
+          type: scram-sha-512
+        name: external
+        port: 9092
+        tls: false
+        type: loadbalancer
+    replicas: 1
+    storage:
+      type: ephemeral
+    version: 3.2.0
+  zookeeper:
+    replicas: 3
+    storage:
+      type: ephemeral
+status:
+  clusterId: WAleH9PGQbmkNZMMLdlSZQ
+  conditions:
+    - lastTransitionTime: '2022-07-11T04:55:47.539076Z'
+      message: >-
+        A Kafka cluster with a single replica and ephemeral storage will lose
+        topic messages after any restart or rolling update.
+      reason: KafkaStorage
+      status: 'True'
+      type: Warning
+    - lastTransitionTime: '2022-07-11T04:56:37.036Z'
+      status: 'True'
+      type: Ready
+  listeners:
+    - addresses:
+        - host: >-
+            a5fbf9c7de66844c48fa057930525ed5-1577922537.ap-southeast-1.elb.amazonaws.com
+          port: 9092
+      bootstrapServers: >-
+        a5fbf9c7de66844c48fa057930525ed5-1577922537.ap-southeast-1.elb.amazonaws.com:9092
+      name: external
+      type: external
+  observedGeneration: 1
+
+---
+kind: Secret
+apiVersion: v1
+metadata:
+  name: my-connect-secret-name
+  namespace: kafka-test
+  uid: 3c1a41eb-1ea2-4dff-be2d-c1194f3d1262
+  resourceVersion: '476407'
+  creationTimestamp: '2022-07-11T04:55:11Z'
+  managedFields:
+    - manager: Mozilla
+      operation: Update
+      apiVersion: v1
+      time: '2022-07-11T04:55:11Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:data':
+          .: {}
+          'f:my-password-field-name': {}
+        'f:type': {}
+stringData:
+  my-password-field-name: admin
+type: Opaque

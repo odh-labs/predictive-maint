@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script >
+    var minio_location = ""
+    var midfinger = 0
+    var background = 0
+    var person = 0
+
+    function start(){
+        minio_location = $('#minioserver').val()+'image-prediction/'
+        setInterval(fetchData, 1000);
+    }
+
+    function fetchData(){
+        $.ajax({
+            url: minio_location +  'Person.txt',
+            dataType: 'text',
+        }).done(successFunctionPerson);
+        $.ajax({
+            url: minio_location +  'Background.txt',
+            dataType: 'text',
+        }).done(successFunctionBackground);
+
+    }
+    function successFunctionOne(data){
+        // console.log(data)
+        $('#one').empty().append(data)
+        if(midfinger != data){
+            //update as it is detected
+            $('#heading').empty().append("One")
+        }
+        midfinger = data
+    }
+    function successFunctionPerson(data){
+        $('#person').empty().append(data)
+        if(person != data){
+            //update as it is detected
+            $('#heading').empty().append("Person")
+        }
+        person = data
+
+    }
+    function successFunctionBackground(data){
+        $('#background').empty().append(data)
+        if(background != data){
+            //update as it is detected
+            $('#heading').empty().append("Background")
+        }
+        background = data
+
+    }
+
+
+
+</script>
+<!--$.ajax({-->
+<!--url: minio_location +  'MidFinger.txt',-->
+<!--dataType: 'text',-->
+<!--}).done(successFunctionOne);-->
+
+<style>
+    #minioserverdiv{
+
+        margin: 0 auto;
+        text-align: center;
+
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+
+    body {
+        font-family: 'Nunito', sans-serif;
+        background: #fbf7f4;
+    }
+
+
+    .container {
+        width: 80%;
+        margin: auto;
+    }
+
+
+    .heading {
+        text-align: center;
+        font-size: 3.5rem;
+        font-weight: bold;
+        padding: 5rem 0;
+    }
+
+
+    .counter-container {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+
+    .counter {
+        text-align: center;
+    }
+
+
+    .counter h3 {
+        padding: 0.5rem 0;
+        font-size: 3.5rem;
+        font-weight: 800;
+    }
+
+    .counter h6 {
+        font-size: 2rem;
+        padding-bottom: 1rem;
+    }
+
+
+    .icon {
+        height: 5rem;
+        width: auto;
+    }
+</style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+<div class="container">
+    <div class="heading" id="heading"></div>
+    <div class="counter-container">
+        <div class="counter">
+<!--            <img src="./icons/iconmonstr-time-19.svg" alt="one" srcset="" class="icon">-->
+            <h3 data-target="15000" class="count" id="one">0</h3>
+            <h6>One</h6>
+        </div>
+        <div class="counter">
+<!--            <img src="./icons/iconmonstr-coffee-11.svg" alt="person" srcset="" class="icon">-->
+            <h3 data-target="1200" class="count" id="person">0</h3>
+            <h6>Person</h6>
+        </div>
+        <div class="counter">
+<!--            <img src="./icons/iconmonstr-weather-112.svg" alt="background" srcset="" class="icon">-->
+            <h3 data-target="500" class="count" id="background">0</h3>
+            <h6>Background</h6>
+        </div>
+    </div>
+</div>
+<hr>
+<div id="minioserverdiv" class="col-5">
+    Minio API URL - including ending slash
+    <div class="row">
+        <input id="minioserver" type="text" placeholder="Put Minio Address Here - including slash" />
+        <input type="button" value="Start Fetching" onclick="start()">
+    </div>
+</div>
+</body>
+
+</html>
+
+
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
+
+<!--<script>-->
+<!--    function fetchData(){-->
+<!--        $.ajax({-->
+<!--            url: 'http://minio-ml-workshop-fmv3.apps.dbs-indo-1.apac-1.rht-labs.com/image-prediction/MidFinger.txt',-->
+<!--            dataType: 'text',-->
+<!--        }).done(successFunctionOne);-->
+<!--        $.ajax({-->
+<!--            url: 'http://minio-ml-workshop-fmv3.apps.dbs-indo-1.apac-1.rht-labs.com/image-prediction/Person.txt',-->
+<!--            dataType: 'text',-->
+<!--        }).done(successFunctionPerson);-->
+<!--        $.ajax({-->
+<!--            url: 'http://minio-ml-workshop-fmv3.apps.dbs-indo-1.apac-1.rht-labs.com/image-prediction/Background.txt',-->
+<!--            dataType: 'text',-->
+<!--        }).done(successFunctionBackground);-->
+
+<!--    }-->
+<!--    function successFunctionOne(data){-->
+<!--        // console.log(data)-->
+<!--        $('#one').empty().append(data)-->
+<!--    }-->
+<!--    function successFunctionPerson(data){-->
+<!--        $('#person').empty().append(data)-->
+<!--    }-->
+<!--    function successFunctionBackground(data){-->
+<!--        $('#background').empty().append(data)-->
+<!--    }-->
+
+<!--    function successFunction(data) {-->
+<!--        var allRows = data.split(/\r?\n|\r/);-->
+<!--        var table = '<table>';-->
+<!--        for (var singleRow = 0; singleRow < allRows.length; singleRow++) {-->
+<!--            if (singleRow === 0) {-->
+<!--                table += '<thead>';-->
+<!--                table += '<tr>';-->
+<!--            } else {-->
+<!--                table += '<tr>';-->
+<!--            }-->
+<!--            var rowCells = allRows[singleRow].split(',');-->
+<!--            for (var rowCell = 0; rowCell < rowCells.length; rowCell++) {-->
+<!--                if (singleRow === 0) {-->
+<!--                    table += '<th>';-->
+<!--                    table += rowCells[rowCell];-->
+<!--                    table += '</th>';-->
+<!--                } else {-->
+<!--                    table += '<td>';-->
+<!--                    table += rowCells[rowCell];-->
+<!--                    table += '</td>';-->
+<!--                }-->
+<!--            }-->
+<!--            if (singleRow === 0) {-->
+<!--                table += '</tr>';-->
+<!--                table += '</thead>';-->
+<!--                table += '<tbody>';-->
+<!--            } else {-->
+<!--                table += '</tr>';-->
+<!--            }-->
+<!--        }-->
+<!--        table += '</tbody>';-->
+<!--        table += '</table>';-->
+<!--        $('body').append(table);-->
+<!--    }-->
+
+<!--    setInterval(fetchData, 500);-->
+<!--</script>-->
+
+<!--<body>-->
+<!--<table>-->
+<!--    <tbody>-->
+<!--    <tr>-->
+<!--        <td>One</td>-->
+<!--        <td id="one"></td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <td>Person</td>-->
+<!--        <td id="person"></td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <td>Background</td>-->
+<!--        <td id="background"></td>-->
+<!--    </tr>-->
+<!--    </tbody>-->
+<!--</table>-->
+
+<!--</body>-->

@@ -1,0 +1,7 @@
+seaborn 
+pandas
+matplotlib
+tensorflow-addons
+mlflow
+minio
+tensorflow

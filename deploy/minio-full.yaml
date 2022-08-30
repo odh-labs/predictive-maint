@@ -1,0 +1,269 @@
+---
+apiVersion: v1
+data:
+  prometheus_config.config: |-
+    prometheus_config {
+      enable: true,
+      path: "/monitoring/metrics"
+    }
+kind: ConfigMap
+metadata:
+  name: promconfig
+  labels:
+    helm.sh/chart: s3-server-0.0.1
+    app.kubernetes.io/name: minio
+    app.kubernetes.io/instance: min
+    app.kubernetes.io/version: "0.0.1"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: s3-server/templates/minio.yaml
+apiVersion: v1
+data:
+  models.config: |-
+    model_config_list {
+      config {
+        name: 'test_model'
+        base_path: 's3://models/test_model'
+        model_platform: "tensorflow",
+        model_version_policy: {all: {}}
+      }
+    }
+kind: ConfigMap
+metadata:
+  name: modelconfig
+  labels:
+    helm.sh/chart: s3-server-0.0.1
+    app.kubernetes.io/name: minio
+    app.kubernetes.io/instance: min
+    app.kubernetes.io/version: "0.0.1"
+    app.kubernetes.io/managed-by: Helm
+
+---
+# Source: s3-server/templates/minio.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  #  namespace: ml-workshop
+  name: minio-ml-workshop
+  labels:
+    helm.sh/chart: s3-server-0.0.1
+    app.kubernetes.io/name: minio
+    app.kubernetes.io/instance: min
+    app.kubernetes.io/version: "0.0.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: minio
+      app.kubernetes.io/instance: min
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: s3-server-0.0.1
+        app.kubernetes.io/name: minio
+        app.kubernetes.io/instance: min
+        app.kubernetes.io/version: "0.0.1"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      containers:
+        - name: minio
+          livenessProbe:
+            httpGet:
+              path: /minio/health/live
+              port: 9000
+              scheme: HTTP
+            initialDelaySeconds: 10
+            timeoutSeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 10
+          readinessProbe:
+            httpGet:
+              path: /minio/health/ready
+              port: 9000
+              scheme: HTTP
+            initialDelaySeconds: 10
+            timeoutSeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 10
+
+          image: docker.io/minio/minio:RELEASE.2022-07-06T20-29-49Z.fips
+          imagePullPolicy: IfNotPresent
+          resources: {}
+          args:
+            - server
+            - /storage
+            #            - --config-dir=/config
+            - --console-address=:33933
+          env:
+            - name: MINIO_ACCESS_KEY
+              value: "minio"
+            - name: MINIO_SECRET_KEY
+              value: "minio123"
+            - name: MINIO_PROMETHEUS_AUTH_TYPE
+              value: "public"
+            - name: MINIO_TRACE
+              value: "true"
+            - name: MINIO_ROOT_USER
+              value: "minio"
+            - name: MINIO_ROOT_PASSWORD
+              value: "minio123"
+
+          ports:
+            - containerPort: 9000
+            - containerPort: 33933
+          volumeMounts:
+            - name: storage
+              mountPath: "/storage"
+      #            - name: config
+      #              mountPath: "/config"
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: minio-ml-workshop
+#        - name: config
+#          emptyDir: {}
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  #  namespace: ml-workshop
+  name: minio-ml-workshop
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Gi
+---
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  #  namespace: ml-workshop
+  name: minio-ml-workshop
+  labels:
+    helm.sh/chart: s3-server-0.0.1
+    app.kubernetes.io/name: minio
+    app.kubernetes.io/instance: min
+    app.kubernetes.io/version: "0.0.1"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    openshift.io/host.generated: 'true'
+spec:
+  host: null
+  subdomain: ''
+  to:
+    kind: Service
+    name: minio-ml-workshop
+    weight: 100
+  port:
+    targetPort: 9000
+  #  tls:
+  #    insecureEdgeTerminationPolicy: Redirect
+  #    termination: edge
+  wildcardPolicy: None
+
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  #  namespace: ml-workshop
+  name: minio-ml-workshop-ui
+  labels:
+    helm.sh/chart: s3-server-0.0.1
+    app.kubernetes.io/name: minio
+    app.kubernetes.io/instance: min
+    app.kubernetes.io/version: "0.0.1"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    openshift.io/host.generated: 'true'
+spec:
+  # host: null
+  subdomain: ''
+  to:
+    kind: Service
+    name: minio-ml-workshop
+    weight: 100
+  port:
+    targetPort: 33933
+  #  tls:
+  #    insecureEdgeTerminationPolicy: Redirect
+  #    termination: edge
+  wildcardPolicy: None
+---
+apiVersion: v1
+kind: Service
+metadata:
+  #  namespace: ml-workshop
+  name: minio-ml-workshop
+  labels:
+    helm.sh/chart: s3-server-0.0.1
+    app.kubernetes.io/name: minio
+    app.kubernetes.io/instance: min
+    app.kubernetes.io/version: "0.0.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  ports:
+    - port: 9000
+      protocol: TCP
+      name: api
+    - port: 33933
+      protocol: TCP
+      name: web
+
+  selector:
+    app.kubernetes.io/name: minio
+    app.kubernetes.io/instance: min
+  type: ClusterIP
+  sessionAffinity: None
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  #  namespace: ml-workshop
+  name: minio-ml-workshop
+  labels:
+    helm.sh/chart: s3-server-0.0.1
+    app.kubernetes.io/name: minio
+    app.kubernetes.io/instance: min
+    app.kubernetes.io/version: "0.0.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  template:
+    metadata:
+      name: minio-setup-ml-workshop
+    spec:
+      restartPolicy: OnFailure
+      volumes:
+        - name: config
+          emptyDir: {}
+        - configMap:
+            defaultMode: 420
+            name: modelconfig
+          name: modelconfig
+        - configMap:
+            defaultMode: 420
+            name: promconfig
+          name: promconfig
+      containers:
+        - name: mc
+          image: minio/mc:latest
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/sh
+            - -c
+            - "mc --config-dir=/config config host add velero http://minio-ml-workshop:9000 minio minio123 && mc --config-dir=/config mb --ignore-existing velero/image-prediction/ && mc --config-dir=/config policy set public velero/image-prediction"
+          volumeMounts:
+            - name: config
+              mountPath: "/config"
+            - mountPath: /tmp/models.config
+              name: modelconfig
+              subPath: models.config
+            - mountPath: /tmp/prometheus_config.config
+              name: promconfig
+              subPath: prometheus_config.config

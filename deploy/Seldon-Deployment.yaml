@@ -1,0 +1,54 @@
+apiVersion: machinelearning.seldon.io/v1
+kind: SeldonDeployment
+metadata:
+  name: model-1
+  labels:
+    app: seldon
+spec:
+  annotations:
+    deployment_version: '1'
+    project_name: pred-demo
+  name: pred-demo-spec
+  predictors:
+    - annotations:
+        predictor_version: '1'
+        seldon.io/svc-name: model-1-pred-demo
+        team: opendatahub
+      componentSpecs:
+        - hpaSpec:
+            maxReplicas: 35
+            metrics:
+              - resource:
+                  name: cpu
+                  targetAverageUtilization: 80
+                type: Resource
+            minReplicas: 30
+          spec:
+            containers:
+              - env:
+                  - name: MODEL_NAME
+                    value: Predictor
+                  - name: SERVICE_TYPE
+                    value: MODEL
+                  - name: GRPC_PORT
+                    value: '5007'
+                  - name: METRICS_PORT
+                    value: '6007'
+                  - name: HTTP_PORT
+                    value: '9000'
+                image: 'quay.io/ml-aml-workshop/image-classification:0.0.1'
+                imagePullPolicy: Always
+                name: pred-demopredictor
+      graph:
+        endpoint:
+          service_host: localhost
+          service_port: 9000
+          type: REST
+        name: pred-demopredictor
+        type: MODEL
+      labels:
+        team: opendatahub
+        version: predictor
+      name: predictor
+      replicas: 1
+
