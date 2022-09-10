@@ -11,7 +11,7 @@ with oc.project('fmv2'), oc.timeout(10*60):
 
     print(build_config)
     if build_config == 0:
-        oc.new_build(["--strategy", "docker", "--binary", "--docker-image", "registry.access.redhat.com/ubi8/python-38:1-71", "--name", build_name ])
+        oc.new_build(["--strategy", "docker", "--binary", "--docker-image", "registry.access.redhat.com/ubi8/python-38:1-72", "--name", build_name ])
     else:
         build_details = oc.selector(f"bc/{build_name}").object()
         print(build_details.as_json())
