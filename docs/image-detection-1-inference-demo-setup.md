@@ -1,46 +1,26 @@
 # Setting up the Inference Demo
 
 
-### Prerequisite 1 - Download and unzip the edge-based virtual box for this workshop. 
-We've created a virtual machine (VM) you'll run in VirtualBox. It contains all of the libraries, binaries, command line interfaces etc, that you'll need to 
-- interact with, setup and configure your Kafka Streaming service
-- interact with, setup and configure your OpenShift based applications, which will - 
-  - make the inference calls to the AI prediction service using pulled in realtime from your Kafka Streaming service
-  - push the results to your own OpenShift based Object Store S3 implemenation
-- retrieve images from your webcam feed in realtime and push them to your Kafka Streaming service
+### Prerequisite 1 - Install the Red Hat OpenShift Application Services Command Line Interface (RHOAS CLI)
+The CLI will be used to create and configure your Red Hat cloud based Kafka cluster and topic.
+Run the following
+```
+curl -o- https://raw.githubusercontent.com/redhat-developer/app-services-cli/main/scripts/install.sh | bash
+```
+Add this to your system path.
 
-Hit this URL to download this virtual box
-[https://www.dropbox.com/s/o3tsofeix3eocj2/Fedora-VB3.ova?dl=0](https://www.dropbox.com/s/o3tsofeix3eocj2/Fedora-VB3.ova?dl=0)
+### Prerequisite 2 - Install the Red Hat OpenShift Command Line Interface (oc CLI)
+```
+curl -o- https://raw.githubusercontent.com/redhat-developer/app-services-cli/main/scripts/install.sh | bash
+```
+Add this to your system path.
 
-You may be prompted to login. It's not required, just click the **X** to close the dialog:
+### Prerequisite 3 - Install the JQ Javascript manipulation tool.
+Thi si serquired to extract data from JSON that the RHOAS CLI generates. It's available here:
 
-<img src="images/2-setup/image60.png" width="230" height="400" />
+[https://stedolan.github.io/jq/download/](https://stedolan.github.io/jq/download/)
 
-
-Then click download:
-![images/2-setup/image61.png](images/2-setup/image61.png)
-
-
-Depending on your internet speead, this can take several minuites. 
-
-Once it's complete unzip the file - by double clicking on it...
-
-
-### Prerequisite 2 - Install Virtual Box and its extension pack.
-Instructions to do it are contained on the [Virtual Box Download page](https://www.virtualbox.org/wiki/Downloads). But in short:
- - 1 - Download Virtual Box
- - 2 - Download the extension pack
- 
- Then
- - Install Virtual Box
- - Grant access to vistual box to your camera, microphone etc
- - Install the extension pack
-
-![images/2-setup/image62.png](images/2-setup/image62.png)
-
-
-
-### Prerequisite 3 - a Red Hat Account
+### Prerequisite 4 - a Red Hat Account
 Next, if you don't already have one, set up a free Red Hat Account - where the SaaS service, Red Hat OpenShift Service for Apache Kafka (RHOASAK) is located. Do that at **https://console.redhat.com**. Logout
 
 

@@ -11,7 +11,7 @@
 KAFKA_NAME='kafka-rocks'
 TOPIC_NAME='video-stream'
 
-#oc login --user --password
+
 
 rhoas login
 
