@@ -19,7 +19,7 @@ cd predictive-maint
 export REPO_HOME=`pwd`
 ```
 
-## Install the Open Data Hub Operator
+## Install the Open Data Hub Operator cluster wide
 
 1. Log on to OpenShift as a Cluster Administrator. (For RHPDS this is opentlc-mgr.)
 2. Click the *Perspective* dropdown list box
