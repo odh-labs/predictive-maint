@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script >
+    var minio_location = ""
+    var background = 0
+    var person = 0
+    var refreshIntervalId;
+
+
+
+    $( document ).ready(function() {
+        $('#stop-button').hide();
+    });
+    
+
+    function start(){
+        stop();
+        minio_location = 'minio/image-prediction/'
+        refreshIntervalId = setInterval(fetchData, 1000);
+        $('#start-button').hide();
+        $('#stop-button').show();
+    }
+
+    function stop(){
+        if (refreshIntervalId) {
+            clearInterval(refreshIntervalId);
+        }
+        $('#start-button').show();
+        $('#stop-button').hide();
+    }
+
+    function fetchData(){
+        $.ajax({
+            url: minio_location +  'Person.txt',
+            dataType: 'text'
+        })
+        .done(successFunctionPerson)
+        .fail(function (jqXHR, textStatus) {
+            console.log(textStatus);
+        });
+        $.ajax({
+            url: minio_location +  'Background.txt',
+            dataType: 'text'
+        }).done(successFunctionBackground)
+        .fail(function (jqXHR, textStatus) {
+            console.log(textStatus);
+        });
+
+    }
+    function successFunctionPerson(data){
+        $('#person').empty().append(data)
+        if(person != data){
+            //update as it is detected
+            $('#heading').empty().append("Person")
+        }
+        person = data
+
+    }
+    function successFunctionBackground(data){
+        $('#background').empty().append(data)
+        if(background != data){
+            //update as it is detected
+            $('#heading').empty().append("Background")
+        }
+        background = data
+
+    }
+
+
+
+</script>
+
+<style>
+    #minioserverdiv{
+
+        margin: 0 auto;
+        text-align: center;
+
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+
+    body {
+        font-family: 'Nunito', sans-serif;
+        background: #fbf7f4;
+    }
+
+
+    .container {
+        width: 80%;
+        margin: auto;
+    }
+
+
+    .heading {
+        text-align: center;
+        font-size: 3.5rem;
+        font-weight: bold;
+        padding: 5rem 0;
+    }
+
+
+    .counter-container {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+
+    .counter {
+        text-align: center;
+    }
+
+
+    .counter h3 {
+        padding: 0.5rem 0;
+        font-size: 3.5rem;
+        font-weight: 800;
+    }
+
+    .counter h6 {
+        font-size: 2rem;
+        padding-bottom: 1rem;
+    }
+
+
+    .icon {
+        height: 5rem;
+        width: auto;
+    }
+    .block {
+        background-color: #04AA6D;
+        border: none;
+        color: white;
+        padding: 50px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 48px;
+        margin: 40px 2px;
+        border-radius: 12px;
+        cursor: pointer;
+    }
+    .block:hover {
+        background-color: #03d387;
+    }
+    .block-red {
+        background-color: rgb(230, 10, 10);
+        border: none;
+        color: white;
+        padding: 50px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 48px;
+        margin: 40px 2px;
+        border-radius: 12px;
+        cursor: pointer;
+    }
+    .block-red:hover {
+        background-color: red;
+    }
+</style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+<div class="container">
+    <div class="heading" =>
+        <div>AI/ML Image Recognition</div>
+    </div>
+    <div class="heading" id="heading">
+    </div>
+    <div class="counter-container">
+        <div class="counter">
+            <h3 data-target="1200" class="count" id="person">0</h3>
+            <h6>Person</h6>
+        </div>
+        <div class="counter">
+            <h3 data-target="500" class="count" id="background">0</h3>
+            <h6>Background</h6>
+        </div>
+    </div>
+</div>
+<hr>
+<div id="minioserverdiv" class="col-5">
+    <div class="row">
+        <input id="start-button" type="button" value="Start" onclick="start()" class="block">
+        <input id="stop-button" type="button" value="Stop" onclick="stop()" class="block-red">
+    </div>
+    
+</div>
+<div class="container">
+    <div class="heading" id="heading">
+        <image src="Apidays-AUSTRALIA_Logo-White-v2.png" alt="" />
+    </div>
+</div>
+</body>
+
+</html>

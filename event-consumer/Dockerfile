@@ -10,7 +10,7 @@ COPY ./*.go ./go.* /go/src/app/
 
 WORKDIR /go/src/app
 
-RUN GO111MODULE=on go mod download
+RUN GO111MODULE=on go mod download -x
 RUN GO111MODULE=on CGO_ENABLED=1 GOOS=linux go build -tags static_all -gcflags="-e" -a -installsuffix cgo -o main .
 
 

@@ -90,7 +90,7 @@ spec:
             successThreshold: 1
             failureThreshold: 10
 
-          image: docker.io/minio/minio:RELEASE.2022-07-06T20-29-49Z.fips
+          image: docker.io/minio/minio:latest
           imagePullPolicy: IfNotPresent
           resources: {}
           args:

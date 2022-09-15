@@ -17,18 +17,18 @@ import (
 	"time"
 )
 
-func RecordClassification(img gocv.Mat, classification string) {
+func RecordClassification(classification string) {
 
 	//publishToPrometheus(img, classification)
-	publishToS3(img, classification)
+	publishToS3(classification)
 
 }
 
 var background_count_s3 int32 = 0
 var person_count_s3 int32 = 0
-var Finger_count_s3 int32 = 0
+var midfinger_count_s3 int32 = 0
 
-func publishToS3(img gocv.Mat, classification string) {
+func publishToS3(classification string) {
 	endpoint := os.Getenv("MINIO_SERVER")
 	accessKeyID := os.Getenv("MINIO_USER")
 	secretAccessKey := os.Getenv("MINIO_PASSWORD")
@@ -52,9 +52,9 @@ func publishToS3(img gocv.Mat, classification string) {
 	} else if classification == "Background" {
 		atomic.AddInt32(&background_count_s3, 1)
 		file = background_count_s3
-	} else if classification == "Finger" {
-		atomic.AddInt32(&Finger_count_s3, 1)
-		file = Finger_count_s3
+	} else if classification == "MidFinger" {
+		atomic.AddInt32(&midfinger_count_s3, 1)
+		file = midfinger_count_s3
 	}
 	//println(strconv.Itoa(int(file)))
 	//println("file is formed")
@@ -93,9 +93,9 @@ var (
 		Help: "Total number of background detected",
 	})
 
-	Finger_count = prometheus.NewCounter(prometheus.CounterOpts{
-		Name: "Finger",
-		Help: "Total number of Finger detected",
+	midfinger_count = prometheus.NewCounter(prometheus.CounterOpts{
+		Name: "MidFinger",
+		Help: "Total number of Midfinger detected",
 	})
 )
 
@@ -108,9 +108,9 @@ func publishToPrometheus(img gocv.Mat, classification string) {
 	} else if classification == "Background" {
 		background_count.Inc()
 		counter = background_count
-	} else if classification == "Finger" {
-		Finger_count.Inc()
-		counter = Finger_count
+	} else if classification == "MidFinger" {
+		midfinger_count.Inc()
+		counter = midfinger_count
 	}
 	err := push.New(promserver, "pred_maint_job").
 		Collector(counter).

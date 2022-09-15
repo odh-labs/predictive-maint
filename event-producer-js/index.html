@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<style>
+    /* CSS comes here */
+    #videocamera {
+        border: 1px solid black;
+        width: 320px;
+        height: 240px;
+    }
+
+    #image {
+        border: 1px solid black;
+        width: 320px;
+        height: 240px;
+    }
+
+    #canvas {
+        display: none;
+    }
+
+    .camera {
+        width: 340px;
+        display: inline-block;
+        text-align: center;
+    }
+
+    .output {
+        width: 340px;
+        display: inline-block;
+        text-align: center;
+        
+    }
+
+    .heading {
+        text-align: center;
+        font-size: 3.5rem;
+        font-weight: bold;
+        padding: 5rem 0;
+    }
+
+    .counter-container {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .fullcontent {
+        font-size: 16px;
+        font-family: Arial;
+        text-align: center;
+    }
+    .block {
+        background-color: #04AA6D;
+        border: none;
+        color: white;
+        padding: 50px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 48px;
+        margin: 40px 2px;
+        border-radius: 12px;
+        cursor: pointer;
+    }
+    .block:hover {
+        background-color: #03d387;
+    }
+    .block-red {
+        background-color: rgb(230, 10, 10);
+        border: none;
+        color: white;
+        padding: 50px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 48px;
+        margin: 40px 2px;
+        border-radius: 12px;
+        cursor: pointer;
+    }
+    .block-red:hover {
+        background-color: red;
+    }
+</style>
+
+<body>
+<div class="fullcontent">
+    <div class="heading">
+        <div>Image Capture</div>
+    </div>
+    <div class="counter-container">
+        <div class="camera">
+            <h4>Video Stream</h4>
+            <video id="videocamera">Video stream not available.</video>
+        </div>
+        
+        <div class="output" >
+            <canvas id="canvas"></canvas>
+            <h4>Captured Image</h4>
+            <img id="image" alt="The screen capture will appear in this box.">
+        </div>
+    </div>
+
+    <div>
+        <div class="row">
+            <input id="start-button" type="button" value="Start" onclick="start()" class="block">
+            <input id="stop-button" type="button" value="Stop" onclick="stop()" class="block-red">
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $( document ).ready(function() {
+        $('#stop-button').hide();
+    });
+    var capturing = false;
+     function start(){
+        capturing = true;
+        setTimeout(tnc, 1500);
+        $('#start-button').hide();
+        $('#stop-button').show();
+    }
+
+    function stop(){
+        capturing = false;
+        $('#start-button').show();
+        $('#stop-button').hide();
+    }
+
+
+        var width = 256; // We will scale the photo width to this
+        var height = 256; // This will be computed based on the input stream
+
+        var streaming = false;
+
+        var video = null;
+        var canvas = null;
+        var photo = null;
+        var startbutton = null;
+
+        function startup() {
+            video = document.getElementById('videocamera');
+            canvas = document.getElementById('canvas');
+            photo = document.getElementById('image');
+
+            navigator.mediaDevices.getUserMedia({
+                    video: true,
+                    audio: false
+                })
+                .then(function(stream) {
+                    video.srcObject = stream;
+                    video.play();
+                })
+                .catch(function(err) {
+                    console.log("An error occurred: " + err);
+                });
+
+            video.addEventListener('canplay', function(ev) {
+                if (!streaming) {
+
+                    video.setAttribute('width', width);
+                    video.setAttribute('height', height);
+                    canvas.setAttribute('width', width);
+                    canvas.setAttribute('height', height);
+                    streaming = true;
+                }
+            }, false);
+
+            
+        }
+
+        function tnc(){
+            takepicture();
+            if (capturing) {
+                setTimeout(tnc, 1500);
+            }
+        }
+
+
+        function clearphoto() {
+            var context = canvas.getContext('2d');
+            context.fillStyle = "#AAA";
+            context.fillRect(0, 0, canvas.width, canvas.height);
+
+            var data = canvas.toDataURL('image/png');
+            photo.setAttribute('src', data);
+        }
+
+        function takepicture() {
+            var context = canvas.getContext('2d');
+            if (width && height) {
+                canvas.width = width;
+                canvas.height = height;
+                context.drawImage(video, 0, 0, width, height);
+                var imgData = context.getImageData(0, 0, width, height).data;
+                var data = canvas.toDataURL('image/png');
+//                console.log(imgData.length);
+//                console.log(typeof imgData);
+//                console.log(btoa(imgData));
+                photo.setAttribute('src', data);
+                console.log("faisal");
+                $.ajax({
+                  url: '/send',
+                  type: 'POST',
+                  data: btoa(imgData),
+                  dataType: 'text',
+//                  success: function (result) {
+//                        console.log("post to local node is ok");
+//                  },
+                  async: true,
+                  contentType: 'application/text; charset=utf-8'
+                });
+            } else {
+                clearphoto();
+            }
+        }
+
+
+        window.addEventListener('load', startup, false);
+
+
+
+
+    </script>
+</body>
+
+</html>

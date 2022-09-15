@@ -2,14 +2,17 @@ package main
 
 import (
 	"bytes"
+	"encoding/base64"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"gocv.io/x/gocv"
+	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -47,6 +50,85 @@ type seldonpayload struct {
 
 func PerformInference(imagedata []byte) {
 	println("\nInferencing ....")
+	//todo merge into one - not production ready
+	unzippeddata, err := io.ReadAll(bytes.NewReader([]byte(imagedata)))
+	if err != nil {
+		fmt.Printf("Error in reading the decompressed byte array ... Ignoring..... %s\n", err)
+		return
+	}
+	imagedataforinference, err := base64.StdEncoding.DecodeString(string(unzippeddata))
+	if err != nil {
+		fmt.Printf("Error in decoding the base6 array ... Ignoring..... %s\n", err)
+		return
+	}
+
+	singedimarray := strings.Split(string(imagedataforinference), ",")
+	const imagewidth = 255 * 4
+	var imgarray [256][256][3]uint8
+	for i := 0; i < 256; i++ {
+		for j := 0; j < 256; j++ {
+			firstitem := (i * (imagewidth)) + (j * 4)
+			//imageData.data[( (50 * (imageData.width * 4) ) + (200 * 4)) + 2];
+
+			imgarray[i][j][0] = str2int(singedimarray[firstitem])
+			imgarray[i][j][1] = str2int(singedimarray[firstitem+1])
+			imgarray[i][j][2] = str2int(singedimarray[firstitem+2])
+		}
+	}
+
+	sp := newSeldonpayload(&Data{Names: []string{"image"}, Ndarray: imgarray})
+	classification, err := postpayload(sp)
+	go RecordClassification(classification)
+
+}
+
+func PerformInferenceFaster(imagedata []byte) {
+	println("\nInferencing ....")
+	//todo merge into one - not production ready
+	var imagedataforinference []byte
+	base64.StdEncoding.Decode(imagedataforinference, imagedata)
+
+	/*	unzippeddata, err := io.ReadAll(bytes.NewReader([]byte(imagedata)))
+		if err != nil {
+			fmt.Printf("Error in reading the decompressed byte array ... Ignoring..... %s\n", err)
+			return
+		}
+		imagedataforinference, err := base64.StdEncoding.DecodeString(string(unzippeddata))
+		if err != nil {
+			fmt.Printf("Error in decoding the base6 array ... Ignoring..... %s\n", err)
+			return
+		}
+	*/
+	singedimarray := strings.Split(string(imagedataforinference), ",")
+	const imagewidth = 255 * 4
+	var imgarray [256][256][3]uint8
+	for i := 0; i < 256; i++ {
+		for j := 0; j < 256; j++ {
+			firstitem := (i * (imagewidth)) + (j * 4)
+			//imageData.data[( (50 * (imageData.width * 4) ) + (200 * 4)) + 2];
+
+			imgarray[i][j][0] = str2int(singedimarray[firstitem])
+			imgarray[i][j][1] = str2int(singedimarray[firstitem+1])
+			imgarray[i][j][2] = str2int(singedimarray[firstitem+2])
+		}
+	}
+
+	sp := newSeldonpayload(&Data{Names: []string{"image"}, Ndarray: imgarray})
+	classification, _ := postpayload(sp)
+	go RecordClassification(classification)
+
+}
+
+func str2int(str string) uint8 {
+	convertedint, err := strconv.Atoi(str)
+	if err != nil {
+		fmt.Printf("Error in conversion of string to int %s", err)
+		return 0
+	}
+	return uint8(convertedint)
+}
+func PerformInferenceGoCV(imagedata []byte) {
+	println("\nInferencing ....")
 	img, err := gocv.IMDecode(imagedata, gocv.IMReadUnchanged)
 	if err != nil {
 		fmt.Printf("Exitting .. Failed to decode image: %s\n", err)
@@ -72,7 +154,7 @@ func PerformInference(imagedata []byte) {
 
 	sp := newSeldonpayload(&Data{Names: []string{"image"}, Ndarray: imgarray})
 	classification, err := postpayload(sp)
-	go RecordClassification(img, classification)
+	go RecordClassification(classification)
 }
 
 func postpayload(sp *seldonpayload) (string, error) {
@@ -96,9 +178,9 @@ func postpayload(sp *seldonpayload) (string, error) {
 	} else if strings.Contains(body, "Background") {
 		fmt.Printf("\nBACKGROUND\n")
 		return "Background", nil
-	} else if strings.Contains(body, "Finger") {
-		fmt.Printf("\nFinger\n")
-		return "Finger", nil
+	} else if strings.Contains(body, "MidFinger") {
+		fmt.Printf("\nMIDFINGER\n")
+		return "MidFinger", nil
 	}
 
 	return "", errors.New("no classification found")
