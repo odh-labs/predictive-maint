@@ -97,4 +97,4 @@ This name is expected by the data science components in the training folder of t
 
 
 ## Allocate enough resources for the demo/workshop
-As a Cluster Administrator, add sufficient MachineSets/Nodes to cater for your class size. This has been roughly calculated at one AWS m5.4.xlarge Machine per user. Though thjis calculation need to be retested and refined.
+As a Cluster Administrator, add sufficient MachineSets/Nodes to cater for your class size. This has been roughly calculated at one AWS m5.4xlarge Machine per user. Though this calculation needs to be retested and refined - as it is likely too much.
