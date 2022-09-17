@@ -175,7 +175,8 @@ You should see yourself on the screen. Don't click start yet.
 
 
 
-## 3 - Configure OpenShift's model serving component (Seldon) and based object storage (Minio) 
+## 3 - Install the controller, AI, storage and dashboard components
+
 Now we'll configure 
  - the controlling application that pulls images from Kafka, calls the AI and pushes the results to object storage
  - the AI model exposed using Seldon as a RESTful API,
@@ -190,7 +191,7 @@ On your OpenShift web console, select the dropdown and select your YOUR OPENSHIF
 ![images/2-setup/image22.png](images/2-setup/image22.png) 
 
 
-### Install the components
+Now we have the project selected, we can do our installs.
 
 1. Seldon is an awesome tool to expose an AI model behind a RESTful API. In your terminal, run the following to install Seldon
   ```
@@ -214,30 +215,35 @@ On your OpenShift web console, select the dropdown and select your YOUR OPENSHIF
    ```
    Shortly after, you should see that completed on your visual Topology dashboard.
 
-C
-### Install Minio, our lightweight Object Storage implementation
-
-1. In your terminal window, type the following commands:
-   ```
-   oc apply -f $REPO_HOME/deploy/minio-full.yaml
-   ```
-   You should be informed of a series of Kubernetes object creations.
-
-2. Now switch to your OpenShift web console again. Navigate to **Workloads > Pods** and filter on *minio*. After a couple of minutes, you should see a running container like so. (ignore any temporary ***CrashBackoff*** status of the other pod).
- ![images/2-setup/image55.png](images/2-setup/image55.png)
-
-3. Navigate to **Networking > Routes**. Notice there are 2 ***Minio*** routes    
-   - one for the UI 
-   - one for the API (without the ***ui*** suffix)
- ![images/2-setup/image56.png](images/2-setup/image56.png)
-
-   1. Copy the API one and paste it somewhere for later. We'll refer to this as your ***FULL_MINIO_API_ROUTE***.
-   2. Open the UI one - by clicking on the URL under *Location*. Log in using username/password ***minio*** and ***minio123***. You'll see a bucket called *image-prediction*. Here we'll keep a count of the the number of objects the model detected in the streaming feed.
-   ![images/2-setup/image57.png](images/2-setup/image57.png)
+4. Finally, we need to set up our dashboard web page that displays the count of what your webcam is seeing and the AI is detecting in real time.
 
 
-## 5 - Check back on your Kafka Automation script.
-Recall above we advised you to check back in a few minutes on your Kafka automation script. Now is probably a good time to do that - as described above at ***Confirm your Kafka installation***
+Click **Add** then **Import from Git**
+Make the following 2 entries as shown in screenshot below (you may need to expand Advanced Git Options). Leave the rest of the values as their defaults 
+```
+Git Repo URL:         https://github.com/odh-labs/predictive-maint
+Context:              /dashboard
+```
+![images/2-setup/image25.png](images/2-setup/image25.png) 
+
+Notice OpenShift's Source to Image capabilities picked up it's a Node JS application.
+
+Scroll down and enter **dashboard** for both the Application and Name entries , then click **Deployment** on the bottom:
+![images/2-setup/image26.png](images/2-setup/image26.png) 
+
+Scroll down to the Environment variables section and enter the following then click **Create**. 
+```
+MINIO_URL       http://minio-ml-workshop:9000
+```
+
+![images/2-setup/image27.png](images/2-setup/image27.png) 
+
+Soon after - it will build the application then deploy it. Your tolpolgy should now contain the following compnents - fully deployed. Click the Route icon on the dashboard Node Js deployment as shown in red.
+
+![images/2-setup/image28.png](images/2-setup/image28.png) 
+
+You should see this web page. Don't click start yet.
+![images/2-setup/image29.png](images/2-setup/image29.png) 
 
 
 ## 6 - Setup Complete
