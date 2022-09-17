@@ -116,29 +116,79 @@ It should look something like this - though your values will be different:
 
 Log in and click **Display Token**. 
 
-
-
 Copy the entire ***oc login*** command as far as ***6443*** and paste into your terminal window inside virtual box. Accept the *insecurity* warning.
 
 ![images/2-setup/image10.png](images/2-setup/image10.png)
 
-#### Select your OpenShift image producer project
-We will use a NodeJS based application to capture images from your webcam and send them to Kafka. (Actually we will only send 1 per second as that's sufficient - and will ease the load on Kafka and associated compute and staorage costs).
-In a production situation, at the edge, we might run this using Podman or Docker - but as we have access to an OpenShift cluster, we'll use that.
-
-Select your project inside the terminal window. Run the following replacing ***YOUR OPENSHIFT PRODUCER PROJECT	*** with yours
+Now select your producer project inside the terminal window. Run the following replacing ***YOUR OPENSHIFT PRODUCER PROJECT	*** with yours
    ```
    oc project <insert YOUR OPENSHIFT INFERENCE PROJECT here>
    ```
    i.e. in my case, as I'm user30:
 
-![images/2-setup/image42.png](images/2-setup/image42.png) 
+![images/2-setup/image11.png](images/2-setup/image11.png) 
 
-Now on the OpenShift Web console (either within or outside your Virtual box VM), navigate to Home > Projects and click ***YOUR OPENSHIFT INFERENCE PROJECT***, in my case *a-predictive-maint-user30*
-![images/2-setup/image53.png](images/2-setup/image53.png) 
+#### Configure your OpenShift image producer project
+We will use a NodeJS based application to capture images from your webcam and send them to Kafka. (Actually we will only send 1 per second as that's sufficient - and will ease the load on Kafka and associated compute and staorage costs).
+In a production situation, at the edge, we might run this using Podman or Docker - but as we have access to an OpenShift cluster, we'll use that.
+
+Now on the OpenShift Web console (either within or outside your Virtual box VM), navigate to Home > Projects and click ***YOUR OPENSHIFT PRODUCER PROJECT	***, in my case *a-producer-user30*
+![images/2-setup/image12.png](images/2-setup/image12.png) 
+
+Next, switch to Developer perspective by selecting it on the dropdown on the top left of the screen.
+![images/2-setup/image13.png](images/2-setup/image13.png) 
+
+Skip the tour if you get a popup offering a tour.
+
+Click **Add** then **Import from Git**
+![images/2-setup/image14.png](images/2-setup/image14.png) 
+Make the following 2 entries as shown in screenshot below (you may need to expand Advanced Git Options). Leave the rest of the values as their defaults 
+```
+Git Repo URL:         https://github.com/odh-labs/predictive-maint
+Context:              /event-producer-js
+```
+![images/2-setup/image15.png](images/2-setup/image15.png) 
+
+Notice OpenShift's Source to Image capabilities picked up it's a Node JS application.
+
+Scroll down and enter **producer** for both the Application and Name entries , then click **Deployment** on the bottom:
+![images/2-setup/image16.png](images/2-setup/image16.png) 
+
+Scroll down to Add Value and click it twice - to allow 3 environment variables to be entered. Enter the values saved to a text file earlier and click **Create**. 
+```
+KAFKA_BROKER_URL
+SASL_USERNAME
+SASL_PASSWORD
+```
+
+![images/2-setup/image17.png](images/2-setup/image17.png) 
+
+Soon after - it will build the application then deploy it. Click the **producer** deployment and when the build is done and the pod is ready, scroll down and click the Route
+
+![images/2-setup/image18.png](images/2-setup/image18.png) 
+
+You'll get a warning the application is trying to access your webcam - accept that warning.
+![images/2-setup/image19.png](images/2-setup/image19.png) 
+
+You should see yourself on the screen. Don't click start yet.
+![images/2-setup/image20.png](images/2-setup/image20.png) 
 
 
-## 4 - Configure OpenShift's model serving component (Seldon) and based object storage (Minio) 
+
+## 3 - Configure OpenShift's model serving component (Seldon) and based object storage (Minio) 
+Now we'll configure 
+ - the controlling application that pulls images from Kafka,
+ - the AI model exposed using Seldon as a RESTful API,
+ - lightweight S3 object storage implemented uisng Minio. Here we will store the count of the number of times the AI detected what it did (person or background),
+ - the dashboard HTML page that shows in realtime what the AI model is detecting.
+
+Now both on screen and in your terminal, select YOUR OPENSHIFT DASHBOARD PROJECT. In my case that's ***a-dashboard-user30*** 	
+In a terminal do that using the oc comand as follow - substitutuing in YOUR OPENSHIFT DASHBOARD PROECT
+![images/2-setup/image21.png](images/2-setup/image21.png) 
+
+On your OpenShift web console, select the dropdown and select your YOUR OPENSHIFT DASHBOARD PROJECT - as shown, mine is ***a-dashboard-user30*** though yours will be different.
+![images/2-setup/image22.png](images/2-setup/image22.png) 
+
 
 #### Install the Seldon Deployment
 
@@ -158,7 +208,7 @@ Seldon is an awesome tool to expose an AI model behind a RESTful API.
 4. Navigate to **Workloads > Pods**. This shows your pods or running containers within your project. You should see 30 pods instanciating, each of which should change to status *Running* after a couple of minutes.
  ![images/2-setup/image54.png](images/2-setup/image54.png)
 
-
+C
 ### Install Minio, our lightweight Object Storage implementation
 
 1. In your terminal window, type the following commands:
