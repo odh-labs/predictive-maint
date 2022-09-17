@@ -60,7 +60,7 @@ You'll be prompted login to your Red Hat Account (you set up previously). A conf
 
 This script will take several minutes to complete. Keep the terminal open, allowing it to continue the Kafka configuration. 
 Feel free to continue from the section below 
-***2 - Login to OpenShift and select your OpenShift project*** - and come back to the script after 6-7 minutes
+***2 - Login to OpenShift and select your OpenShift producer project*** - and come back to the script after 6-7 minutes
 
 
 ### Confirm your Kafka installation
@@ -93,27 +93,26 @@ These 3 placeholders in your consumer-deployment.yaml should ***now have your va
 cat $REPO_HOME/deploy/consumer-deployment.yaml
 ```
 It should look something like this - though your values will be different:
-![images/2-setup/image59.png](images/2-setup/image59.png)
+![images/2-setup/image5.png](images/2-setup/image5.png)
 
 
-## 2 - Login to OpenShift and select your OpenShift project
+## 2 - Login to OpenShift and select your OpenShift producer project
 
 #### Login to your OpenShift cluster using both browser and terminal
 1. Log on to OpenShift - by hitting the URL ***OPENSHIFT CLUSTER URL*** you got off the Web Meeting Chat earlier. You'll see this screen. Click **openshift-users** 
-![images/2-setup/image40.png](images/2-setup/image40.png)
+![images/2-setup/image6.png](images/2-setup/image6.png)
 2. Enter these values    
    - ***YOUR OPENSHIFT USERNAME*** that you got earlier from your instructor
    - ***openshift*** for your password 
 3. Click **Log In**
- ![images/2-setup/image41.png](images/2-setup/image41.png) 
+ ![images/2-setup/image7.png](images/2-setup/image7.png) 
 
-
-3. Click the *Perspective* dropdown list box
-4. Click the *Administrator* perspective\
+4. Click the *Perspective* dropdown list box
+5. Click the *Administrator* perspective\
    OpenShift changes the user interface to the Adminstrator perspective.
-![images/2-setup/image17.png](images/2-setup/image17.png)
-5. Click your username on the top right of the screen, then click *Copy Login Command*
-![images/2-setup/image18.png](images/2-setup/image18.png)
+![images/2-setup/image8.png](images/2-setup/image8.png)
+6. Click your username on the top right of the screen, then click *Copy Login Command*
+![images/2-setup/image9.png](images/2-setup/image9.png)
 
 Log in and click **Display Token**. 
 
@@ -121,7 +120,7 @@ Log in and click **Display Token**.
 
 Copy the entire ***oc login*** command as far as ***6443*** and paste into your terminal window inside virtual box. Accept the *insecurity* warning.
 
-![images/2-setup/image19.png](images/2-setup/image19.png)
+![images/2-setup/image10.png](images/2-setup/image10.png)
 
 #### Select your OpenShift image producer project
 We will use a NodeJS based application to capture images from your webcam and send them to Kafka. (Actually we will only send 1 per second as that's sufficient - and will ease the load on Kafka and associated compute and staorage costs).
