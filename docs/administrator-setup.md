@@ -44,6 +44,14 @@ export REPO_HOME=`pwd`
 
 The Open Data Hub Operator is now installed. 
 
+## Create a project for Model training
+As a Cluster Administrator, run the following
+```
+oc new-project ml-workshop
+```
+This name is expected by the data science components in the training folder of the Git repo (https://github.com/odh-labs/predictive-maint)
+
+
 ## Install the Seldon Operator cluster wide
 
 1. Click **Operators > Operator Hub**. Click the *Filter by keybord* text box and type *seldon*
