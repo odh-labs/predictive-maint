@@ -63,7 +63,7 @@ spec:
             - name: "MODEL_URL"
               value: "http://model-1-pred-demo:8000/api/v1.0/predictions"
           imagePullPolicy: Always
-          image: quay.io/ml-aml-workshop/image-prediction-consumer:0.0.2
+          image: quay.io/ml-aml-workshop/image-prediction-consumer:0.1.1
       restartPolicy: Always
       terminationGracePeriodSeconds: 20
       dnsPolicy: ClusterFirst
