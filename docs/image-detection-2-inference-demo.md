@@ -1,52 +1,38 @@
 # Running the Inference Demo
 
-Ensure you have setup this demo first, as instructed in [Setup Inference Demo](https://github.com/odh-labs/predictive-maint/blob/main/docs/image-detection-inference-demo-setup-v2.md)
 
-## 1 - Open webpage on your VM that reports what the AI model sees
-
-### Navigate to HTML file
-Inside your VM, again click **Activities** then this time click the *files* button on the bottom
-![images/3-inference-demo/image7.png](images/3-inference-demo/image7.png)
-
-The files view will open. 
-![images/3-inference-demo/image8.png](images/3-inference-demo/image8.png)
+## 1 - Start your Image Capture on the producer web page
+You should already have opened this page while [setting up the inference demo](https://github.com/odh-labs/predictive-maint/blob/main/docs/image-detection-1-inference-demo-setup.md). You should see yourself on the screen. Click start to begin capturing images and sending them to Kafka.
+![images/2-setup/image20.png](images/2-setup/image20.png) 
 
 
-Click into **predictive-maint** then into **deploy**. Double click on ***show_data.html*** 
-![images/3-inference-demo/image9.png](images/3-inference-demo/image9.png)
-
-That HTML file will open in Firefox. Resize Firefox and your terminal so they are both visible 
-![images/3-inference-demo/image10.png](images/3-inference-demo/image10.png)
-
-Now, you'll need to paste the address of your Minio API object storage storage into the textbox on the html file. You'll recall earlier, on OpenShift you retrieved your ***FULL_MINIO_API_ROUTE*** - the value beside ***1*** here:
- ![images/2-setup/image56.png](images/2-setup/image56.png)
-
-Copy that ***FULL_MINIO_API_ROUTE*** value and append ***image-prediction/*** to it so it should be something this
-```
-http://minio-ml-workshop-a-predictive-maint-admin.apps.rosa-sfqrc.6wjo.p1.openshiftapps.com/image-prediction/
-```
-
-
-Paste into the textbox on the ***show_data.html*** file.
-
-***DON'T CLICK the Start Fetching button yet***.
+## 2 - Start your Dashboard web page\
+Now it's time to start your Dashboard web page - to detect what the AI model is detecting in real time
 
 
 
-## 2 - Give the VM permissions to access your webcam.
-On the Virtual Box menu, navigate to **Devices > Webcams** and click on the webcam you wish to use to generate the images:
- ![images/3-inference-demo/image14.png](images/3-inference-demo/image14.png)
 
 
-## 3 - Run the OpenShift inference application to pull images from Kafka and make realtime predictions
 
-Run this in the terminal in your VM.
-```
-oc apply -f $REPO_HOME/deploy/consumer-deployment.yaml
-```
+You should already have opened this page while [setting up the inference demo](https://github.com/odh-labs/predictive-maint/blob/main/docs/image-detection-1-inference-demo-setup.md). You should see yourself on the screen. **Click Start** to begin polling S3 object storage for what the AI is detecting
+![images/2-setup/image29.png](images/2-setup/image29.png) 
 
-Switch to OpenShift and move to the pods view. In a couple of minutes, you should have a new pod Running and Ready for your inference application. 
-![images/3-inference-demo/image4.png](images/3-inference-demo/image4.png)
+
+## 3 - Summary Recap
+
+The diagram below summarises what is happeing in this demo
+- an Edge based image capture/producer application pulls images in realtime from your webcam. The AI Model ihas been trained to recognise people - or anything else - which is labels as *background*. This capture/producer application is running on Kuberntees (OpenShift) but it could easily be modified to run something like podman or docker - suitable in low power edge environments
+- This capture/producer application pushes images (1 per second) to a cloud based Kafka service hosted by Red Hat.
+- on AWS a controlling application, a Kubernetes (OpenShift) ***pod*** does the following
+  
+  1) sends each image it pulls from Kafka to an AI Model that returns a production of what it is, either Person or Background
+  2) writes to S3 Object Storage the total count of how many times it detected Person or Background
+
+- the dashboard webpage polls S3 Object Storage every second for the current count of Person or Background. This results in a near realtime update of what your webcam sends to what's displayed on the webpage.
+
+![images/3-inference-demo/image1.png](images/3-inference-demo/image1.png)
+
+
 
 This application is pulling images off the Kakfa streaming service and for each one it calls the ***Seldon exposed*** AI model - which predicts what it is seeing in that image.
 
