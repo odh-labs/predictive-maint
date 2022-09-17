@@ -47,11 +47,11 @@ spec:
             - name: "MINIO_PASSWORD"
               value: "minio123"
             - name: "SASL_USERNAME"
-              value: "19ceac1c-8bdb-4ff5-939a-48ec1e38e628"
+              value: "SASL_USERNAME_VALUE"
             - name: "SASL_PASSWORD"
-              value: "agZG2nQaTrY1I4y7GulSic74RfxDgYxv"
+              value: "SASL_PASSWORD_VALUE"
             - name: "KAFKA_BROKER"
-              value: "kafka-rock-ccg--hhnmtt-ptbjrtkg.bf2.kafka.rhcloud.com:443"
+              value: "KAFKA_BROKER_VALUE"
             - name: "GROUP_ID"
               value: "imageclassification"
             - name: "MINIO_SERVER"
@@ -63,7 +63,7 @@ spec:
             - name: "MODEL_URL"
               value: "http://model-1-pred-demo:8000/api/v1.0/predictions"
           imagePullPolicy: Always
-          image: quay.io/ml-aml-workshop/image-prediction-consumer:0.1.1
+          image: quay.io/ml-aml-workshop/image-prediction-consumer:0.0.2
       restartPolicy: Always
       terminationGracePeriodSeconds: 20
       dnsPolicy: ClusterFirst

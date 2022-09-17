@@ -16,7 +16,7 @@ curl -o- https://raw.githubusercontent.com/redhat-developer/app-services-cli/mai
 Add this to your system path.
 
 ### Prerequisite 3 - Install the JQ Javascript manipulation tool.
-Thi si serquired to extract data from JSON that the RHOAS CLI generates. It's available here:
+This is required to extract data from JSON that the RHOAS CLI generates. It's available here:
 
 [https://stedolan.github.io/jq/download/](https://stedolan.github.io/jq/download/)
 
@@ -27,59 +27,27 @@ Next, if you don't already have one, set up a free Red Hat Account - where the S
 ### Prerequisite 4 - an OpenShift cluster, a Username and an OpenShift project to work in
 You instrutor will supply these to you in the Web Meeting Chat. We'll refer to these below as
 ```
-YOUR OPENSHIFT INFERENCE PROJECT	
+YOUR OPENSHIFT PRODUCER PROJECT	
+YOUR OPENSHIFT DASHBOARD PROJECT
 YOUR OPENSHIFT USERNAME	
 YOUR OPENSHIFT PASSWORD
 OPENSHIFT CLUSTER URL
 ```
-Once these there are complete, you're ready to begin. 
+We're now ready to begin. 
 
-## 1 - Open virtual box then open a terminal inside your virtual box. 
-On your laptop, open Virtual Box. A screen like this will appear. 
-Click **Import**:
-![images/2-setup/image44.png](images/2-setup/image44.png)
-- keep the source *Local File System*
-- click the file icon
-- navigate to where you unzipped the VM earlier
-- select the ***ovf*** file
-- click Open
-![images/2-setup/image45.png](images/2-setup/image45.png)
-
-On the next screen click **Continue**
-![images/2-setup/image46.png](images/2-setup/image46.png)
-
-On the following screen, accept the defaults and click **Import**
-![images/2-setup/image47.png](images/2-setup/image47.png)
-
-Shortly after, your virtual machine will be available. Click **Start**
-![images/2-setup/image48.png](images/2-setup/image48.png)
-
-Enlarge the window and login using the default username ***redhat*** and the password also ***redhat***
-
-You'll see a screen like this. Click the *App Launcher* menu on the bottom. If you don't see it click *Activities* on top.
-![images/2-setup/image49.png](images/2-setup/image49.png)
-
-Click **terminal**
-![images/2-setup/image50.png](images/2-setup/image50.png)
-
-The Github repository containing this documentation you're reading also contains all source code, scripts, yaml etc that you will need to run this workshop.
-We have already cloned this repository into the VM, so you'll just to change directory to it. We'll also set a variable to refer to this directory ***REPO_HOME***. Run the following inside the terminal window:
-```
-cd predictive-maint
-export REPO_HOME=`pwd`
-```
-***Note - if you want to paste commands from this document to the terminal use this keyboard shortcut***
-```
-SHIFT + CONTROL + v
-```
-
-## 2 - Setup Kafka Cluster on Red Hat OpenShift Streams for Apache Kafka (RHOSAK)
-In this section, we're going to automate the configuration of your Kafka streaming service and slot the values from ***your*** new Kafka configuration into various source files so they're ready to use later. Your Kafka streaming service is where
+## 1 - Setup Kafka Cluster on Red Hat OpenShift Streams for Apache Kafka (RHOSAK)
+In this section, we're going to automate the creation and configuration of your Kafka streaming service and slot the values from ***your*** new Kafka configuration into various source files so they're ready to use later. Your Kafka streaming service is where
  - images will be sent from your laptop in realtime
  - those same images will be pulled in realtime for your inferencing application on OpenShift
 
+Now, in a terminal terminal, clone this repoistory, change to its directory and set the REPO_HOME environment variable.
+```
+git clone https://github.com/odh-labs/predictive-maint
+cd predictive-maint
+export REPO_HOME=`pwd`
+```
 
-Now, using the terminal inside your virtual box, run the following Kafka automation script
+Next, run the following Kafka automation script
 ```
 cd $REPO_HOME/deploy
 . ./kafka.sh
@@ -87,21 +55,23 @@ cd $REPO_HOME/deploy
 
 You'll be prompted login to your Red Hat Account (you set up previously). A confirmation page like the following will appear on your browser
 
-![images/2-setup/image0-3-Login-confirmation-browser.png](images/2-setup/image0-3-Login-confirmation-browser.png) 
+![images/2-setup/image1-Login-confirmation-browser.png](images/2-setup/image1-Login-confirmation-browser.png) 
 
-... as well as confirmation on the terminal:
-![images/2-setup/image0-4-Login-confirmation.png](images/2-setup/image0-4-Login-confirmation.png)
 
 This script will take several minutes to complete. Keep the terminal open, allowing it to continue the Kafka configuration. 
 Feel free to continue from the section below 
-***3 - Login to OpenShift and select your YOUR OPENSHIFT INFERENCE PROJECT*** - and come back to the script after 6-7 minutes
+***2 - Login to OpenShift and select your OpenShift project*** - and come back to the script after 6-7 minutes
 
 
 ### Confirm your Kafka installation
 After 5-7 mins, your ***kafka.sh*** script should have completed successfully.
 Verify it by doing the following:
 - Scan your terminal output - it should have run to completion with no errors. The end should look something like this if it was successful:
-![images/2-setup/image52.png](images/2-setup/image52.png)
+![images/2-setup/image2-kafka-terminal-output.png](images/2-setup/image2-kafka-terminal-output.png)
+
+Copy these 3 values to a text file - you'll need them later
+
+![images/2-setup/image3-kafka-env-vars.png](images/2-setup/image3-kafka-env-vars.png)
 
 #### Verify creation of your cloud based Kafka service (RHOASAK)
 - navigate to [https://console.redhat.com/application-services/streams/kafkas](https://console.redhat.com/application-services/streams/kafkas)
@@ -116,7 +86,7 @@ We have a simple OpenShift based application that you will run shortly which
   
 In the ***kafka.sh*** automation script we ran earlier, we configured ***consumer-deployment.yaml*** with various values relating to your Kafka installation. [This link shows you the original part of consumer-deployment.yaml](https://github.com/odh-labs/predictive-maint/blob/main/deploy/consumer-deployment.yaml#L49-L54) before we substitued those values. Notice we have 3 placeholders:
 
-![images/2-setup/image58.png](images/2-setup/image58.png)
+![images/2-setup/image4.png](images/2-setup/image4.png)
 
 These 3 placeholders in your consumer-deployment.yaml should ***now have your values*** . To verify this has been successful, run the following and navigate down to lines 49-54.
 ```
@@ -126,7 +96,7 @@ It should look something like this - though your values will be different:
 ![images/2-setup/image59.png](images/2-setup/image59.png)
 
 
-## 3 - Login to OpenShift and select your OpenShift project
+## 2 - Login to OpenShift and select your OpenShift project
 
 #### Login to your OpenShift cluster using both browser and terminal
 1. Log on to OpenShift - by hitting the URL ***OPENSHIFT CLUSTER URL*** you got off the Web Meeting Chat earlier. You'll see this screen. Click **openshift-users** 
@@ -153,8 +123,11 @@ Copy the entire ***oc login*** command as far as ***6443*** and paste into your 
 
 ![images/2-setup/image19.png](images/2-setup/image19.png)
 
-#### Select your OpenShift project
-Now select your project inside the terminal window. Run the following replacing ***YOUR OPENSHIFT INFERENCE PROJECT*** with yours
+#### Select your OpenShift image producer project
+We will use a NodeJS based application to capture images from your webcam and send them to Kafka. (Actually we will only send 1 per second as that's sufficient - and will ease the load on Kafka and associated compute and staorage costs).
+In a production situation, at the edge, we might run this using Podman or Docker - but as we have access to an OpenShift cluster, we'll use that.
+
+Select your project inside the terminal window. Run the following replacing ***YOUR OPENSHIFT PRODUCER PROJECT	*** with yours
    ```
    oc project <insert YOUR OPENSHIFT INFERENCE PROJECT here>
    ```
