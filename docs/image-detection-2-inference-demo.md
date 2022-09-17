@@ -23,7 +23,7 @@ You should already have opened this page while [setting up the inference demo](h
 
 The page will begin polling S3 object storage for what the AI is detecting. As you are being captured, ***Person*** will start in crementing every second. 
 
-Put your hand in front of your webcam - so it's not seeing you. ***Background *** will start incrementing.
+Put your hand in front of your webcam - so it's not seeing you. ***Background*** will start incrementing.
 
 
 ## 3 - Summary Recap
