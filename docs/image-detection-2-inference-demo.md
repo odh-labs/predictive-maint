@@ -34,9 +34,9 @@ The diagram below summarises what is happeing in this demo
 - on AWS a controlling application, a Kubernetes (OpenShift) ***pod*** does the following
   
   1) sends each image it pulls from Kafka to an AI Model that returns a prediction of what it is, either ***Person*** or ***Background***
-  2) writes to S3 Object Storage the total count of how many times it detected Person or Background
+  2) writes to S3 Object Storage the total count of how many times it detected ***Person*** or ***Background***
 
-- the dashboard webpage polls S3 Object Storage every second for the current count of Person or Background. This results in a near realtime update of what your webcam sends to what's displayed on the webpage.
+- the dashboard webpage polls S3 Object Storage every second for the current count of ***Person*** or ***Background***. This results in a near realtime update of what your webcam sends to what's displayed on the webpage.
 
 ![images/3-inference-demo/image1.png](images/3-inference-demo/image1.png)
 
