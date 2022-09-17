@@ -177,9 +177,9 @@ You should see yourself on the screen. Don't click start yet.
 
 ## 3 - Configure OpenShift's model serving component (Seldon) and based object storage (Minio) 
 Now we'll configure 
- - the controlling application that pulls images from Kafka,
+ - the controlling application that pulls images from Kafka, calls the AI and pushes the results to object storage
  - the AI model exposed using Seldon as a RESTful API,
- - lightweight S3 object storage implemented uisng Minio. Here we will store the count of the number of times the AI detected what it did (person or background),
+ - lightweight S3 object storage implemented using Minio. Here we will store the count of the number of times the AI detected what it did (person or background),
  - the dashboard HTML page that shows in realtime what the AI model is detecting.
 
 Now both on screen and in your terminal, select YOUR OPENSHIFT DASHBOARD PROJECT. In my case that's ***a-dashboard-user30*** 	
@@ -190,23 +190,29 @@ On your OpenShift web console, select the dropdown and select your YOUR OPENSHIF
 ![images/2-setup/image22.png](images/2-setup/image22.png) 
 
 
-#### Install the Seldon Deployment
+### Install the components
 
-Seldon is an awesome tool to expose an AI model behind a RESTful API.
-
-1. In your terminal, run the following
+1. Seldon is an awesome tool to expose an AI model behind a RESTful API. In your terminal, run the following to install Seldon
   ```
    oc apply -f $REPO_HOME/deploy/Seldon-Deployment.yaml
    ```
+   In order to see the visual Topology dashboard, click the icon shown on the top right of the Topology screen.
+   ![images/2-setup/image23.png](images/2-setup/image23.png)
+   You should now see the Seldon deployment - that a few minutes later will change colour to dark blue, indicating it has completed.
+   ![images/2-setup/image24.png](images/2-setup/image24.png)
 
-2. Navigate to **Operator Hub > Installed Operators**. Click **Seldon Operator** 
- ![images/2-setup/image26.png](images/2-setup/image26.png)
 
-3. Click **Seldon Deployment** and notice there is a new one called ***model-1*** whose status is ***Creating***. Come back to this in a few minutes and it should have changed to ***Available***
- ![images/2-setup/image28.png](images/2-setup/image28.png)
+2. Next we deploy our lightweight S3 object storage Minio implementation. Run the following in a terminal:
+  ```
+   oc apply -f $REPO_HOME/deploy/minio-full.yaml
+   ```
+   Shortly after, you should see a completed job and deployment on your visual Topology dashboard along with Seldon
 
-4. Navigate to **Workloads > Pods**. This shows your pods or running containers within your project. You should see 30 pods instanciating, each of which should change to status *Running* after a couple of minutes.
- ![images/2-setup/image54.png](images/2-setup/image54.png)
+3. Next we deploy our controlling application that pulls images from Kafka, calls the AI and pushes the results to object storage. Run the following in a terminal:
+  ```
+   oc apply -f $REPO_HOME/deploy/consumer-deployment.yaml
+   ```
+   Shortly after, you should see that completed on your visual Topology dashboard.
 
 C
 ### Install Minio, our lightweight Object Storage implementation
