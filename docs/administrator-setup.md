@@ -44,27 +44,21 @@ export REPO_HOME=`pwd`
 
 The Open Data Hub Operator is now installed. 
 
-## Create a project for Model training
-As a Cluster Administrator, run the following
-```
-oc new-project ml-workshop
-```
-This name is expected by the data science components in the training folder of the Git repo (https://github.com/odh-labs/predictive-maint)
-
 
 ## Install the Seldon Operator cluster wide
 
 1. Click **Operators > Operator Hub**. Click the *Filter by keybord* text box and type *seldon*
-   ![images/2-setup/image39.png](images/2-setup/image39.png)
+   ![images/4-admin-setup/image1.png](images/4-admin-setup/image1.png)
    OpenShift displays the operator catalogue's **Community Seldon Operator** tile.
 
 
 2. OpenShift displays a community operator warning. Accept it by **clicking *Continue***.
 
 3. OpenShift displays the operator details. Click **Install**   
- ![images/2-setup/image24.png](images/2-setup/image24.png)     
+ ![images/4-admin-setup/image3.png](images/4-admin-setup/image3.png)
+
 4. OpenShift prompts for the operator configuration details. Accept all defaults - ensuring  ***All namespaces on the cluster (default)*** is selected and click **Install**
- ![images/2-setup/image25.png](images/2-setup/image25.png)
+ ![images/4-admin-setup/image4.png](images/4-admin-setup/image4.png)
    
 5. OpenShift installs the operator and displays a confirmation box once complete a few minutes later.  
 
@@ -72,7 +66,7 @@ The Seldon Operator is now installed.
 
 
 ## Login to you OpenShift cluster using the *Copy Login Command* facility.
-![images/2-setup/image43.png](images/2-setup/image43.png)
+![images/4-admin-setup/image5.png](images/4-admin-setup/image5.png)
   
 
 
@@ -91,5 +85,12 @@ After this script, both **_opentlc-mgr_** and **_user29_** have cluster-admin ac
 If you need to create users with different credentials consult [this blog](https://medium.com/kubelancer-private-limited/create-users-on-openshift-4-dc5cfdf85661) - on which these instructions are based.
 
 
+
+## Create a project for Model training
+As a Cluster Administrator, run the following
+```
+oc new-project ml-workshop
+```
+This name is expected by the data science components in the training folder of the Git repo (https://github.com/odh-labs/predictive-maint)
 
 
