@@ -90,8 +90,10 @@ If you need to create users with different credentials consult [this blog](https
 As a Cluster Administrator, run the following
 ```
 oc new-project ml-workshop
+oc delete limits ml-workshop-core-resource-limits
 ```
-This name is expected by the data science components in the training folder of the Git repo (https://github.com/odh-labs/predictive-maint)
+This name *ml-workshop* is expected by the data science components in the training folder of the Git repo (https://github.com/odh-labs/predictive-maint).
+We delete limits, as some systems like Red Hat's RHPDS, impose resource limts too restrictive for us.
 
 
 
