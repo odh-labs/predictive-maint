@@ -34,7 +34,8 @@ Do the following
 
 - On the Authorise Access popup screen, click *Allow selected permissions*
    ![images/5-model-training-setup/image4.png](images/5-model-training-setup/image4.png)
-- On the Spawner page, select the image *** Predictive Maintenance Tensorflow GPU*** and then **Start Server** as shown below. This will take a few minutes. It's better to do this now, as we want this image to be downloaded to our cluster so it's faster when our students do it later.
+   
+- On the Spawner page, select the image **Predictive Maintenance Tensorflow GPU** and then **Start Server** as shown below. This will take a few minutes. It's better to do this now, as we want this image to be downloaded to our cluster so it's faster when our students do it later.
    ![images/5-model-training-setup/image5.png](images/5-model-training-setup/image5.png)
 
 - As soon as you are into Jupyter, shut down the server by clicking 
