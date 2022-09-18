@@ -1,8 +1,39 @@
-# Setting up the Training Demo
+# Setting up the AI Model Training Demo
 
 We are going to create, train and deploy an equivalent model we used previously to detect objects in the realtime streaming images from our webcam via Kafka.
 
-## 1 - Create a project and delete any limts
+## 1 - Install the Open Data Hub's Jupyter notebook component
+
+Do the following
+- Navigate to the setup/training subdirectory where you have have cloned this repo. 
+- Open the file *workshop-kfdef.yaml*. 
+- Go to line 41 and remove the value starting at ***.apps.***
+- In your browser, copy the equivalent part of the address starting at ***.apps.*** ending in ***.com***. Paste that into line 41 where you removed what was there. Save the file
+
+***NOTE - ensure line 41 starts a . (dot) as shown***
+
+![images/5-model-training-setup/image1.png](images/5-model-training-setup/image1.png)
+
+Now install the Open Data Hub components, defined in *workshop-kfdef.yaml* in your ml-workshop project
+```
+oc project ml-workshop
+oc apply -f $REPO_HOME/setup/training/workshop-kfdef.yaml
+```
+
+In OpenShift's Administrator view, navigate to **Workloads > Pods**
+Filter on *jupyter*. As soon you see your two *deploy* pods completed, you're ready to open Jupyter
+![images/5-model-training-setup/image2.png](images/5-model-training-setup/image2.png)
+
+
+
+
+
+
+
+
+
+
+
 
 1. Create a new project using the terminal and delete any limits that get applied to your project. 
 ***NOTE ask your instructor what your USER value should be***
