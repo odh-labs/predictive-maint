@@ -116,7 +116,7 @@ Alternatively, you can use a tool like Postman
     /api/v1.0/predictions
     ```
 - in the body section copy and paste [the 1s and 0s raw data here](https://raw.githubusercontent.com/odh-labs/predictive-maint/main/training/data/seldon-payload.txt)
-This is the same type of numeric multi dimensional array our notebook uses when it does its perdiction.
+This numeric multi dimensional array represents an image.
 - Click **Send**
 - You should see a prediction at the bottom
 ![images/6-model-training-demo/image12.png](images/6-model-training-demo/image12.png)
@@ -132,7 +132,8 @@ remove folders
 - Background
 - Finger
 - Person
-then create a folder for what you want your model to detect and add multiple photos there. e.g. if you wanted to detect sharks and dolphins, create these folders and add images of those there
+
+Then create a folder for what you want your model to detect and add multiple photos there. e.g. if you wanted to detect sharks and dolphins, create these folders and add images of those there
 
 We also recommend more robust training. For simplicty, we only loop through our training data 3 times, with 3 epochs in cell ***1.8. Training the Model***. This should be much much higher - increase until you see no improved accuracy.
 
