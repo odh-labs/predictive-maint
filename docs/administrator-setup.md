@@ -1,9 +1,36 @@
 # Open Data Hub Workshop Setup Instructions
 
 ## Prerequisites
-You'll need:
-- An OpenShift 4.8 cluster - with admin rights. You can create one by following the instructions [here](http:/try.openshift.com), or via RHPDS (Red Hat staff only).
-- the OpenShift command line interface, _oc_ available [here](https://docs.openshift.com/container-platform/4.6/cli_reference/openshift_cli/getting-started-cli.html)
+
+### Prerequisite 1 - Install the Red Hat OpenShift Application Services Command Line Interface (RHOAS CLI)
+The CLI will be used to create and configure your Red Hat cloud based Kafka cluster and topic.
+Run the following
+```
+curl -o- https://raw.githubusercontent.com/redhat-developer/app-services-cli/main/scripts/install.sh | bash
+```
+Add this to your system path.
+
+### Prerequisite 2 - Install the Red Hat OpenShift Command Line Interface (oc CLI)
+```
+curl -o- https://raw.githubusercontent.com/redhat-developer/app-services-cli/main/scripts/install.sh | bash
+```
+Add this to your system path.
+
+### Prerequisite 3 - Install the JQ Javascript manipulation tool.
+This is required to extract data from JSON that the RHOAS CLI generates. It's available here:
+
+[https://stedolan.github.io/jq/download/](https://stedolan.github.io/jq/download/)
+
+### Prerequisite 4 - a Red Hat Account
+Next, if you don't already have one, set up a free Red Hat Account - where the SaaS service, Red Hat OpenShift Service for Apache Kafka (RHOASAK) is located. Do that at **https://console.redhat.com**. Logout
+
+
+### Prerequisite 4 - an OpenShift cluster - with admin rights.
+Red Hatters and partners can use RHPDS. 
+
+Others can create one by following the instructions [here](http:/try.openshift.com), or via RHPDS (Red Hat staff only).
+
+We're now ready to begin. 
 
 
 ## Download the Workshop Files
