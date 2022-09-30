@@ -25,7 +25,7 @@ Next, if you don't already have one, set up a free Red Hat Account - where the S
 
 
 ### Prerequisite 4 - an OpenShift cluster, a Username and an OpenShift project to work in
-You instrutor will supply these to you in the Web Meeting Chat. We'll refer to these below as
+If you are part of a workshop, your instrutor will supply these to you in the Web Meeting Chat. We'll refer to these below as
 ```
 YOUR OPENSHIFT PRODUCER PROJECT	
 YOUR OPENSHIFT DASHBOARD PROJECT
@@ -120,13 +120,18 @@ Copy the entire ***oc login*** command as far as ***6443*** and paste into your 
 
 ![images/2-setup/image10.png](images/2-setup/image10.png)
 
-Now select your producer project inside the terminal window. Run the following replacing ***YOUR OPENSHIFT PRODUCER PROJECT	*** with yours
+**If you ARE in a workshop**, select your producer project inside the terminal window. Run the following replacing ***YOUR OPENSHIFT PRODUCER PROJECT	*** with yours
    ```
-   oc project <insert YOUR OPENSHIFT INFERENCE PROJECT here>
+   oc project <insert YOUR OPENSHIFT PRODUCER PROJECT here>
    ```
    i.e. in my case, as I'm user30:
 
 ![images/2-setup/image11.png](images/2-setup/image11.png) 
+
+**If you are NOT in a workshop**, run the following
+   ```
+   oc new project a-producer
+   ```
 
 #### Configure your OpenShift image producer project
 We will use a NodeJS based application to capture images from your webcam and send them to Kafka. (Actually we will only send 1 per second as that's sufficient - and will ease the load on Kafka and associated compute and staorage costs).
@@ -183,11 +188,17 @@ Now we'll configure
  - lightweight S3 object storage implemented using Minio. Here we will store the count of the number of times the AI detected what it did (person or background),
  - the dashboard HTML page that shows in realtime what the AI model is detecting.
 
-Now both on screen and in your terminal, select YOUR OPENSHIFT DASHBOARD PROJECT. In my case that's ***a-dashboard-user30*** 	
+
+**If you are NOT in a workshop**, run the following (a-dashboard is YOUR OPENSHIFT DASHBOARD PROJECT)
+   ```
+   oc new project a-dashboard
+   ```
+
+Now both on screen and in your terminal, select YOUR OPENSHIFT DASHBOARD PROJECT.
 In a terminal do that using the oc comand as follow - substitutuing in YOUR OPENSHIFT DASHBOARD PROECT
 ![images/2-setup/image21.png](images/2-setup/image21.png) 
 
-On your OpenShift web console, select the dropdown and select your YOUR OPENSHIFT DASHBOARD PROJECT - as shown, mine is ***a-dashboard-user30*** though yours will be different.
+On your OpenShift web console, select the dropdown and select your YOUR OPENSHIFT DASHBOARD PROJECT - as shown.
 ![images/2-setup/image22.png](images/2-setup/image22.png) 
 
 
