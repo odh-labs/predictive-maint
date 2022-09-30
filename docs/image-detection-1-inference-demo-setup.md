@@ -130,7 +130,7 @@ Copy the entire ***oc login*** command as far as ***6443*** and paste into your 
 
 **If you are NOT in a workshop**, run the following
    ```
-   oc new project a-producer
+   oc new-project a-producer
    ```
 
 #### Configure your OpenShift image producer project
@@ -191,7 +191,7 @@ Now we'll configure
 
 **If you are NOT in a workshop**, run the following (a-dashboard is YOUR OPENSHIFT DASHBOARD PROJECT)
    ```
-   oc new project a-dashboard
+   oc new-project a-dashboard
    ```
 
 Now both on screen and in your terminal, select YOUR OPENSHIFT DASHBOARD PROJECT.
