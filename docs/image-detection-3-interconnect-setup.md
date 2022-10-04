@@ -1,4 +1,16 @@
-# Setting up the Interconnect Demo
+# Moving the demo to a Multi-Cloud Implementation
+In this section, we move our Dashboard component to another cloud, Azure. In doing so we utilise an exciting new component Red Hat Application Interconnect (powered by Skupper).
+This simulates a scenario where we need part of our solution to another cloud, e.g. if our organisation has decided to move all reporting and dashboarding functionality to that cloud.
+In utilising Application Interconnect (powered by Skupper), we can create a secure, encrypted *narrow* tunnel between a service on one cluster and a service on another cluster.
+
+To do this, we'll move the Dashboard component to Azure's hosted OpenShift component, Azure Red Hat OpenShift (ARO).
+
+The dashbard component will look like this:
+![images/7-interconnect-setup/1-dashboard-aro-interconnect.png](images/7-interconnect-setup/1-dashboard-aro-interconnect.png) 
+
+And the overall solution will look like this:
+![images/7-interconnect-setup/2-overall-solution-dashboard-aro-interconnect.png](images/7-interconnect-setup/2-overall-solution-dashboard-aro-interconnect.png) 
+
 
 
 ## 1 - Create an OpenShift Cluster
