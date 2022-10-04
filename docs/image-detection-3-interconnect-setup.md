@@ -16,9 +16,9 @@ First ensure you have met the prerequisites
 ## Prerequisite 1 - Setup and Run the single cluster demo
 
 Setup and run the original single-cluster demo - including their prerequisites by following:
-- [https://github.com/odh-labs/predictive-maint/blob/main/docs/administrator-setup.md](https://github.com/odh-labs/predictive-maint/blob/main/docs/administrator-setup.md)
-- [https://github.com/odh-labs/predictive-maint/blob/main/docs/image-detection-1-inference-demo-setup.md](https://github.com/odh-labs/predictive-maint/blob/main/docs/image-detection-1-inference-demo-setup.md)
-- [https://github.com/odh-labs/predictive-maint/blob/main/docs/image-detection-2-inference-demo.md](https://github.com/odh-labs/predictive-maint/blob/main/docs/image-detection-2-inference-demo.md)
+- [Administrator Setup](https://github.com/odh-labs/predictive-maint/blob/main/docs/administrator-setup.md)
+- [Inference Demo Setup](https://github.com/odh-labs/predictive-maint/blob/main/docs/image-detection-1-inference-demo-setup.md)
+- [Run Inference Demo](https://github.com/odh-labs/predictive-maint/blob/main/docs/image-detection-2-inference-demo.md)
 
 ## Prerequisite 2 - Download and install the Skupper CLI.
 
