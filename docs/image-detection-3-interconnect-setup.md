@@ -11,6 +11,31 @@ The dashbard component will look like this:
 And the overall solution will look like this:
 ![images/7-interconnect-setup/2-overall-solution-dashboard-aro-interconnect.png](images/7-interconnect-setup/2-overall-solution-dashboard-aro-interconnect.png) 
 
+First ensure you have met the prerequisites
+
+## Prerequisite 2 - Download and install the Skupper CLI.
+
+Navigate
+
+## Prerequisite 2 - Download and install the Skupper CLI.
+
+Navigate to [https://skupper.io/install/index.html] (https://skupper.io/install/index.html). Download, unzip and insatll the CLI and add it to your path as described on the webpage.
+
+
+
+
+
+
+### Prerequisite 2 - Install the Red Hat OpenShift Command Line Interface (oc CLI)
+```
+curl -o- https://raw.githubusercontent.com/redhat-developer/app-services-cli/main/scripts/install.sh | bash
+```
+Add this to your system path.
+
+
+
+
+
 
 
 ## 1 - Create an OpenShift Cluster
