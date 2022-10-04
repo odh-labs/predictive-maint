@@ -19,7 +19,7 @@ Navigate
 
 ## Prerequisite 2 - Download and install the Skupper CLI.
 
-Navigate to [https://skupper.io/install/index.html] (https://skupper.io/install/index.html). Download, unzip and insatll the CLI and add it to your path as described on the webpage.
+Navigate to [https://skupper.io/install/index.html](https://skupper.io/install/index.html). Download, unzip and insatll the CLI and add it to your path as described on the webpage.
 
 
 
