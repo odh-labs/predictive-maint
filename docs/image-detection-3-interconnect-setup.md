@@ -66,22 +66,51 @@ Install Application Interconnect (Skupper) in Openshift namespaces within each o
 
 (As described in the [Application Interconnect (Skupper) installation guide](https://skupper.io/start/index.html))
 
-Now initialise Application Interconnect (Skupper) on ARO - which you are currently logged into. Run the following
+Now initialise Application Interconnect (Skupper) on ARO - which you are currently logged into. Run the following, that includes some login credentials (feel free to modify with your desired credentials)
 ```
 oc project aro-dashboard
-skupper init
+skupper init --console-user admin --console-password admin1
 ```
 
-Now initialise Application Interconnect (Skupper) on ROSA. Login on the terminal [as you did earlier](https://github.com/odh-labs/predictive-maint/blob/main/docs/image-detection-1-inference-demo-setup.md#login-to-your-openshift-cluster-using-both-browser-and-terminal). Then run the following commands
+Now initialise Application Interconnect (Skupper) on ROSA. Login into ROSA on the terminal [as you did earlier](https://github.com/odh-labs/predictive-maint/blob/main/docs/image-detection-1-inference-demo-setup.md#login-to-your-openshift-cluster-using-both-browser-and-terminal). Then run the following commands, again feel free to modify the credentials.
 ```
 oc project a-dashboard
-skupper init
+skupper init --console-user admin --console-password admin1
 ```
 
 
-## 4 - Link Skupper
+## 4 - Link Application Interconnect (Skupper)
 
-Login to the skupper consoles on both namespaces
+Next you'll need to login to the Application Interconnect (Skupper) consoles on both namespaces on both clusters.
+
+On ARO, choose the Administrator view and select your aro-dashboard project. Then navigate to **Networking > Routes**. Click the *Skupper* Route's URL as shown:
+
+![images/7-interconnect-setup/3-skupper-route.png](images/7-interconnect-setup/3-skupper-route.png) 
+
+Enter the credentials *admin* and *admin1* (or your equivalents) and click **Sign In**
+![images/7-interconnect-setup/4-skupper-credentials.png](images/7-interconnect-setup/4-skupper-credentials.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+skupper init --console-user admin --console-password admin1
+
+
+
+
 Link the namespaces by copying the token and pasting into the other
 
 ## 5 - Expose MINIO service
