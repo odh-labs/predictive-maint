@@ -1,52 +1,59 @@
 # Moving the demo to a Multi-Cloud Implementation
+
+## Overview
+
 In this section, we move our Dashboard component to another cloud, Azure. In doing so we utilise an exciting new component Red Hat Application Interconnect (powered by Skupper).
 This simulates a scenario where we need part of our solution to another cloud, e.g. if our organisation has decided to move all reporting and dashboarding functionality to that cloud.
 In utilising Application Interconnect (powered by Skupper), we can create a secure, encrypted *narrow* tunnel between a service on one cluster and a service on another cluster.
 
 To do this, we'll move the Dashboard component to Azure's hosted OpenShift component, Azure Red Hat OpenShift (ARO).
 
-The dashbard component will look like this:
+The dashbard component architecture will look like this:
 ![images/7-interconnect-setup/1-dashboard-aro-interconnect.png](images/7-interconnect-setup/1-dashboard-aro-interconnect.png) 
 
 And the overall solution will look like this:
 ![images/7-interconnect-setup/2-overall-solution-dashboard-aro-interconnect.png](images/7-interconnect-setup/2-overall-solution-dashboard-aro-interconnect.png) 
 
+
+## Prerequisites 
 First ensure you have met the prerequisites
 
-## Prerequisite 1 - Setup and Run the single cluster demo
+### Prerequisite 1 - Setup and Run the single cluster demo
 
 Setup and run the original single-cluster demo - including their prerequisites by following:
 - [Administrator Setup](https://github.com/odh-labs/predictive-maint/blob/main/docs/administrator-setup.md)
 - [Inference Demo Setup](https://github.com/odh-labs/predictive-maint/blob/main/docs/image-detection-1-inference-demo-setup.md)
 - [Run Inference Demo](https://github.com/odh-labs/predictive-maint/blob/main/docs/image-detection-2-inference-demo.md)
 
-## Prerequisite 2 - Download and install the Skupper CLI.
+Doing this demo will require you have a cloud based OpenShift cluster. We'll refer to this as your ROSA cluster (though your actual implemenation doesn't strictly need to be ROSA).
+
+### Prerequisite 2 - Download and install the Skupper CLI.
 
 Navigate to [https://skupper.io/install/index.html](https://skupper.io/install/index.html). Download, unzip and install the CLI and add it to your path as described on the webpage.
 
 
+### Prerequisite 3 - A new OpenShift cluster on a different Cloud - with Admin rights.
 
+In order to demonstrate this cross cluster functionality, you need a new OpenShift cluster on a different cluster. We'll assume this is Azure Red Hat OpenShift (ARO), though that is flexible if you want to use anither cloud/cluster.
 
+Red Hatters and partners can use RHPDS. 
 
+Others can create one by following the instructions [here](http:/try.openshift.com).
 
-### Prerequisite 2 - Install the Red Hat OpenShift Command Line Interface (oc CLI)
+We're now ready to begin. 
+
+## Steps to setup
+
+### 1 - Install the dashboard in a new namespace on the ARO cluster
+
+First login to your ARO cluster, [as you did earlier](https://github.com/odh-labs/predictive-maint/blob/main/docs/image-detection-1-inference-demo-setup.md#login-to-your-openshift-cluster-using-both-browser-and-terminal)
+
+Run the following commands
 ```
-curl -o- https://raw.githubusercontent.com/redhat-developer/app-services-cli/main/scripts/install.sh | bash
-```
-Add this to your system path.
-
-
-
-
-
-
-
-## 1 - Create an OpenShift Cluster
-
-## 2 - Install the dashboard in a new namespace on the new cluster
-oc new-project frontend
+oc new-project aro-dashboard
 oc new-app https://github.com/odh-labs/predictive-maint.git  --context-dir=dashboard  --name=dashboard -e MINIO_URL=http://minio-ml-workshop:9000
 oc create route edge --service=dashboard
+```
 
 ## 3 - Install Skupper on both OpenShift Clusters
 Install Skupper in Openshift namespaces within each
