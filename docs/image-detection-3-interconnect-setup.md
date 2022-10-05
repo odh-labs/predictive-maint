@@ -34,7 +34,7 @@ Navigate to [https://skupper.io/install/index.html](https://skupper.io/install/i
 
 ### Prerequisite 3 - A new OpenShift cluster on a different Cloud - with Admin rights.
 
-In order to demonstrate this cross cluster functionality, you need a new OpenShift cluster ideally on a different cloud. We'll assume this is Azure Red Hat OpenShift (ARO), though that is flexible if you want to use anither cloud/cluster.
+In order to demonstrate this cross cluster functionality, you need a new OpenShift cluster ideally on a different cloud. We'll assume this is Azure Red Hat OpenShift (ARO), though that is flexible if you want to use another cloud/cluster.
 
 Red Hatters and partners can use RHPDS. 
 
