@@ -55,9 +55,11 @@ oc new-app https://github.com/odh-labs/predictive-maint.git  --context-dir=dashb
 oc create route edge --service=dashboard
 ```
 
-## 3 - Install Skupper on both OpenShift Clusters
-Install Skupper in Openshift namespaces within each
-https://skupper.io/start/index.html
+### 2 - Install Skupper on both OpenShift Clusters
+Install Application Interconnect (Skupper) in Openshift namespaces within each of your clusters:
+- your original ROSA cluster
+- your new ARO cluster
+As described in the [Application Interconnect (Skupper) installation guide](https://skupper.io/start/index.html)
 
 curl https://skupper.io/install.sh | sh
 
