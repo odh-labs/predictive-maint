@@ -31,6 +31,10 @@ Doing this demo will require you have a cloud based OpenShift cluster. We'll ref
 
 Navigate to [https://skupper.io/install/index.html](https://skupper.io/install/index.html). Download, unzip and install the CLI and add it to your path as described on the webpage.
 
+For simplicity, running this command then addd it to path works on a Mac
+```
+curl https://skupper.io/install.sh | sh
+```
 
 ### Prerequisite 3 - A new OpenShift cluster on a different Cloud - with Admin rights.
 
@@ -59,9 +63,7 @@ oc create route edge --service=dashboard
 Install Application Interconnect (Skupper) in Openshift namespaces within each of your clusters:
 - your original ROSA cluster
 - your new ARO cluster
-As described in the [Application Interconnect (Skupper) installation guide](https://skupper.io/start/index.html)
-
-curl https://skupper.io/install.sh | sh
+(As described in the [Application Interconnect (Skupper) installation guide](https://skupper.io/start/index.html))
 
 Now initialise Application Interconnect (Skupper) on ARO - which you are currently logged into. Run the following
 ```
@@ -71,7 +73,7 @@ skupper init
 
 Now initialise Application Interconnect (Skupper) on ROSA. Login on the terminal [as you did earlier](https://github.com/odh-labs/predictive-maint/blob/main/docs/image-detection-1-inference-demo-setup.md#login-to-your-openshift-cluster-using-both-browser-and-terminal). Then run the following commands
 ```
-oc project a-deshboard
+oc project a-dashboard
 skupper init
 ```
 
