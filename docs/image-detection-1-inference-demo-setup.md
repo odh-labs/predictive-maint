@@ -218,7 +218,16 @@ Now we have the project selected, we can do our installs.
   ```
    oc apply -f $REPO_HOME/deploy/minio-full.yaml
    ```
-   Shortly after, you should see a completed job and deployment on your visual Topology dashboard along with Seldon
+   Shortly after, you should see a completed Minio job and deployment on your visual Topology dashboard along with Seldon.
+
+   By default, an S3 *Bucket* is created in Minio, called image-prediction. This is private by default - we need to make this public.
+   - Switch to the Administrator view and navigate to *Networking Routes*. Click on the Minio UI URL
+    ![images/2-setup/image30.png](images/2-setup/image30.png)
+   - Enter the credentials *minio / minio123*
+   ![images/2-setup/image31.png](images/2-setup/image30.pn1)
+   - 
+
+
 
 3. Next we deploy our controlling application that pulls images from Kafka, calls the AI and pushes the results to object storage. Run the following in a terminal:
   ```
