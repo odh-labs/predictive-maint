@@ -224,7 +224,7 @@ Now we have the project selected, we can do our installs.
    - Switch to the Administrator view and navigate to *Networking Routes*. Click on the Minio UI URL
     ![images/2-setup/image30.png](images/2-setup/image30.png)
    - Enter the credentials *minio / minio123*
-   <img src="images/2-setup/image31.png" width="200"/>
+     <img src="images/2-setup/image31.png" width="300"/>
    
    - 
 
