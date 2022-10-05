@@ -55,7 +55,7 @@ oc new-app https://github.com/odh-labs/predictive-maint.git  --context-dir=dashb
 oc create route edge --service=dashboard
 ```
 
-### 2 - Install Skupper on both OpenShift Clusters
+### 2 - Install Application Interconnect (Skupper) on both OpenShift Clusters
 Install Application Interconnect (Skupper) in Openshift namespaces within each of your clusters:
 - your original ROSA cluster
 - your new ARO cluster
@@ -63,13 +63,18 @@ As described in the [Application Interconnect (Skupper) installation guide](http
 
 curl https://skupper.io/install.sh | sh
 
-oc login <cluster-1>
-oc project <namespace>
+Now initialise Application Interconnect (Skupper) on ARO - which you are currently logged into. Run the following
+```
+oc project aro-dashboard
 skupper init
+```
 
-oc login <cluster-2>
-oc project <namespace>
+Now initialise Application Interconnect (Skupper) on ROSA. Login on the terminal [as you did earlier](https://github.com/odh-labs/predictive-maint/blob/main/docs/image-detection-1-inference-demo-setup.md#login-to-your-openshift-cluster-using-both-browser-and-terminal). Then run the following commands
+```
+oc project a-deshboard
 skupper init
+```
+
 
 ## 4 - Link Skupper
 
