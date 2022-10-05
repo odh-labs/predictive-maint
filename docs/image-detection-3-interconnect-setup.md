@@ -63,6 +63,7 @@ oc create route edge --service=dashboard
 Install Application Interconnect (Skupper) in Openshift namespaces within each of your clusters:
 - your original ROSA cluster
 - your new ARO cluster
+
 (As described in the [Application Interconnect (Skupper) installation guide](https://skupper.io/start/index.html))
 
 Now initialise Application Interconnect (Skupper) on ARO - which you are currently logged into. Run the following
