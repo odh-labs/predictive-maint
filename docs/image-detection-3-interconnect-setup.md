@@ -25,35 +25,61 @@ Setup and run the original single-cluster demo - including their prerequisites b
 - [Inference Demo Setup](https://github.com/odh-labs/predictive-maint/blob/main/docs/image-detection-1-inference-demo-setup.md)
 - [Run Inference Demo](https://github.com/odh-labs/predictive-maint/blob/main/docs/image-detection-2-inference-demo.md)
 
-Doing this demo will require you have a cloud based OpenShift cluster. We'll refer to this as your ROSA cluster (though your actual implemenation doesn't strictly need to be ROSA).
+Doing these demos will require you have a cloud based OpenShift cluster. We'll refer to this as your ROSA cluster (though your actual implemenation doesn't strictly need to be ROSA). You will also now have the ***oc*** Command Link Interface (CLI) tool.
 
 ### Prerequisite 2 - Download and install the Skupper CLI.
 
 Navigate to [https://skupper.io/install/index.html](https://skupper.io/install/index.html). Download, unzip and install the CLI and add it to your path as described on the webpage.
 
-For simplicity, running this command then addd it to path works on a Mac
+For simplicity, running this command works on a Mac. Then add it to your path
 ```
 curl https://skupper.io/install.sh | sh
 ```
 
 ### Prerequisite 3 - A new OpenShift cluster on a different Cloud - with Admin rights.
 
-In order to demonstrate this cross cluster functionality, you need a new OpenShift cluster ideally on a different cloud. We'll assume this is Azure Red Hat OpenShift (ARO), though that is flexible if you want to use another cloud/cluster.
+In order to demonstrate this cross cluster functionality, you need a new OpenShift cluster ideally on a different cloud. We'll assume this is Azure Red Hat OpenShift (ARO), though that is flexible if you want to use another cloud/cluster. You'll also need your existing (likely ROSA) cluster.
 
-Red Hatters and partners can use RHPDS. 
-
-Others can create one by following the instructions [here](http:/try.openshift.com).
+Red Hatters and partners can use RHPDS. Others can create one by following the instructions [here](http:/try.openshift.com).
 
 We're now ready to begin. 
 
 ## Steps to setup
 
-### 1 - Install the dashboard in a new namespace on the ARO cluster
+### 1 - Using the ***oc*** CLI, login to both your old cluster (ROSA) and your new cluster (ARO)
+We need to login to both clusters and use a quick way to context switch between both clusters with the **oc** CLI. This is because we'll be switching back and forth configuring both clusters.
 
-First login to your ARO cluster, [as you did earlier](https://github.com/odh-labs/predictive-maint/blob/main/docs/image-detection-1-inference-demo-setup.md#login-to-your-openshift-cluster-using-both-browser-and-terminal)
+First login to your new ARO cluster, [as you did earlier](https://github.com/odh-labs/predictive-maint/blob/main/docs/image-detection-1-inference-demo-setup.md#login-to-your-openshift-cluster-using-both-browser-and-terminal)
+
+Logging into a cluster will create some login data in a file called ***config*** in your ***$HOME/.kube/*** directory. Setting the environment variable **KUBECONFIG** to that file sets the ***oc logged-in context*** to that cluster.
+
+Run the following to save the ARO *logged-in* context:
+```
+cp $HOME/.kube/config $HOME/.kube/config-aro
+```
+Now login to your existing ROSA cluster, [as you did earlier](https://github.com/odh-labs/predictive-maint/blob/main/docs/image-detection-1-inference-demo-setup.md#login-to-your-openshift-cluster-using-both-browser-and-terminal)
+
+Run the following to save the ROSA *logged-in* context:
+```
+cp $HOME/.kube/config $HOME/.kube/config-rosa
+```
+
+Now we can quickly switch our ***oc*** context to ARO by executing
+```
+export KUBECONFIG=$HOME/.kube/config-aro
+```
+Similarly we can quickly switch our ***oc*** context to ROSA by executing
+```
+export KUBECONFIG=$HOME/.kube/config-rosa
+```
+
+### 2 - Install the dashboard in a new namespace on the ARO cluster
+
+Add the dashboard to your ARO cluster
 
 Run the following commands
 ```
+export KUBECONFIG=$HOME/.kube/config-aro
 oc new-project aro-dashboard
 oc new-app https://github.com/odh-labs/predictive-maint.git  --context-dir=dashboard  --name=dashboard -e MINIO_URL=http://minio-ml-workshop:9000
 oc create route edge --service=dashboard
@@ -66,14 +92,16 @@ Install Application Interconnect (Skupper) in Openshift namespaces within each o
 
 (As described in the [Application Interconnect (Skupper) installation guide](https://skupper.io/start/index.html))
 
-Now initialise Application Interconnect (Skupper) on ARO - which you are currently logged into. Run the following, that includes some login credentials (feel free to modify with your desired credentials)
+Now initialise Application Interconnect (Skupper) on ARO. Run the following, that includes some login credentials (feel free to modify with your desired credentials)
 ```
+export KUBECONFIG=$HOME/.kube/config-aro
 oc project aro-dashboard
 skupper init --console-user admin --console-password admin1
 ```
 
-Now initialise Application Interconnect (Skupper) on ROSA. Login into ROSA on the terminal [as you did earlier](https://github.com/odh-labs/predictive-maint/blob/main/docs/image-detection-1-inference-demo-setup.md#login-to-your-openshift-cluster-using-both-browser-and-terminal). Then run the following commands, again feel free to modify the credentials.
+Now initialise Application Interconnect (Skupper) on ROSA. Then run the following commands, again feel free to modify the credentials.
 ```
+export KUBECONFIG=$HOME/.kube/config-rosa
 oc project a-dashboard
 skupper init --console-user admin --console-password admin1
 ```
@@ -81,42 +109,42 @@ skupper init --console-user admin --console-password admin1
 
 ## 4 - Link Application Interconnect (Skupper)
 
-Next you'll need to login to the Application Interconnect (Skupper) consoles on both namespaces on both clusters.
+Next you'll login to the Application Interconnect (Skupper) consoles on both namespaces on both clusters. To visualise what's happening.
 
-On ARO, choose the Administrator view and select your aro-dashboard project. Then navigate to **Networking > Routes**. Click the *Skupper* Route's URL as shown:
+On ARO, choose the Administrator view and select your aro-dashboard project. Then navigate to **Networking > Routes**. A new *Skupper* Route has been added. Click the *Skupper* Route's URL as shown:
 
 ![images/7-interconnect-setup/3-skupper-route.png](images/7-interconnect-setup/3-skupper-route.png) 
 
 Enter the credentials *admin* and *admin1* (or your equivalents) and click **Sign In**
 ![images/7-interconnect-setup/4-skupper-credentials.png](images/7-interconnect-setup/4-skupper-credentials.png)
 
+You'll see an interface like this:
+![images/7-interconnect-setup/5-skupper-interface.png](images/7-interconnect-setup/5-skupper-interface.png)
+Keep your Application Interconnect (Skupper) web interface open.
 
 
+Now On ROSA, do the exact same thing, this time with the ***a-dashboard*** project selected. Keep your Application Interconnect (Skupper) web interface open.
+![images/7-interconnect-setup/5-skupper-interface.png](images/7-interconnect-setup/5-skupper-interface.png)
 
+Next you do the actual linking using the Skupper CLI. Create a token in ARO as follows:
+```
+export KUBECONFIG=$HOME/.kube/config-aro
+oc project aro-dashboard
+skupper token create ~/aro.token
+```
+Use that token in ARO as follows:
+```
+export KUBECONFIG=$HOME/.kube/config-rosa
+oc project a-dashboard
+skupper link create ~/aro.token
+```
 
+## 5 - Enable your MINIO service for Application Interconnect (Skupper)
 
-
-
-
-
-
-
-
-
-
-
-
-skupper init --console-user admin --console-password admin1
-
-
-
-
-Link the namespaces by copying the token and pasting into the other
-
-## 5 - Expose MINIO service
-
-Expose the minio service with HTTP on port 9000.
-
+Expose the Minio service on ROSA with HTTP on port 9000 by executing the following.
+```
+skupper expose deployment/minio-ml-workshop  --port 9000
+```
 
 ## 6 - Check the dashboard connects
 
