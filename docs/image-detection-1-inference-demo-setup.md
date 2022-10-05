@@ -223,9 +223,10 @@ Now we have the project selected, we can do our installs.
    By default, an S3 *Bucket* is created in Minio, called image-prediction. This is private by default - we need to make this public.
    - Switch to the Administrator view and navigate to *Networking Routes*. Click on the Minio UI URL
     ![images/2-setup/image30.png](images/2-setup/image30.png)
-    
+
    - Enter the credentials *minio / minio123*
-    <img src="images/2-setup/image31.png" width="300"/>
+     
+     <img src="images/2-setup/image31.png" width="300"/>
    
    - 
 
