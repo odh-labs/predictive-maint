@@ -2,11 +2,11 @@
 
 ## Overview
 
-In this section, we move our Dashboard component to another cloud, Azure. In doing so we utilise an exciting new component Red Hat Application Interconnect (powered by Skupper).
+In this section, we move our Dashboard component to another cloud, Azure. In doing so we utilise an exciting new component *Red Hat Application Interconnect (powered by Skupper)*.
 This simulates a scenario where we need part of our solution to another cloud, e.g. if our organisation has decided to move all reporting and dashboarding functionality to that cloud.
-In utilising Application Interconnect (powered by Skupper), we can create a secure, encrypted *narrow* tunnel between a service on one cluster and a service on another cluster.
+In utilising *Application Interconnect (powered by Skupper)*, we can create a secure, encrypted *narrow* tunnel between a service on one cluster and a service on another cluster.
 
-To do this, we'll move the Dashboard component to Azure's hosted OpenShift component, Azure Red Hat OpenShift (ARO).
+To do this, we'll move the Dashboard component to Azure's hosted OpenShift component, Azure Red Hat OpenShift (ARO). And we'll connect securely to the existing Minio Object storage implemenation on on ROSA to display the live data on the now Azure located webpage. 
 
 The dashbard component architecture will look like this:
 ![images/7-interconnect-setup/1-dashboard-aro-interconnect.png](images/7-interconnect-setup/1-dashboard-aro-interconnect.png) 
@@ -40,16 +40,16 @@ curl https://skupper.io/install.sh | sh
 
 In order to demonstrate this cross cluster functionality, you need a new OpenShift cluster ideally on a different cloud. We'll assume this is Azure Red Hat OpenShift (ARO), though that is flexible if you want to use another cloud/cluster. You'll also need your existing (likely ROSA) cluster.
 
-Red Hatters and partners can use RHPDS. Others can create one by following the instructions [here](http:/try.openshift.com).
+To get the ARO cluster, Red Hatters and partners can use RHPDS. Others can create one by following the instructions [here](http:/try.openshift.com).
 
 We're now ready to begin. 
 
 ## Steps to setup
 
 ### 1 - Using the ***oc*** CLI, login to both your old cluster (ROSA) and your new cluster (ARO)
-We need to login to both clusters and use a quick way to context switch between both clusters with the **oc** CLI. This is because we'll be switching back and forth configuring both clusters.
+We need to login to both clusters and use a quick way to context switch between clusters with the **oc** CLI. This is because we'll be switching back and forth configuring both clusters.
 
-First login to your new ARO cluster, [as you did earlier](https://github.com/odh-labs/predictive-maint/blob/main/docs/image-detection-1-inference-demo-setup.md#login-to-your-openshift-cluster-using-both-browser-and-terminal)
+First login to your new ARO cluster, [in the same way you did earlier](https://github.com/odh-labs/predictive-maint/blob/main/docs/image-detection-1-inference-demo-setup.md#login-to-your-openshift-cluster-using-both-browser-and-terminal)
 
 Logging into a cluster will create some login data in a file called ***config*** in your ***$HOME/.kube/*** directory. Setting the environment variable **KUBECONFIG** to that file sets the ***oc logged-in context*** to that cluster.
 
@@ -57,7 +57,7 @@ Run the following to save the ARO *logged-in* context:
 ```
 cp $HOME/.kube/config $HOME/.kube/config-aro
 ```
-Now login to your existing ROSA cluster, [as you did earlier](https://github.com/odh-labs/predictive-maint/blob/main/docs/image-detection-1-inference-demo-setup.md#login-to-your-openshift-cluster-using-both-browser-and-terminal)
+Now login to your existing ROSA cluster, [in the same way you did earlier](https://github.com/odh-labs/predictive-maint/blob/main/docs/image-detection-1-inference-demo-setup.md#login-to-your-openshift-cluster-using-both-browser-and-terminal)
 
 Run the following to save the ROSA *logged-in* context:
 ```
