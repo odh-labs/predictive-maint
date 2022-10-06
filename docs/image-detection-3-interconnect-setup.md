@@ -116,7 +116,7 @@ On ARO, choose the Administrator view and select your aro-dashboard project. The
 ![images/7-interconnect-setup/3-skupper-route.png](images/7-interconnect-setup/3-skupper-route.png) 
 
 Enter the credentials *admin* and *admin1* (or your equivalents) and click **Sign In**
-![images/7-interconnect-setup/4-skupper-credentials.png](images/7-interconnect-setup/4-skupper-credentials.png)
+<img src="images/7-interconnect-setup/4-skupper-credentials.png" width="400"/>
 
 You'll see an interface like this:
 ![images/7-interconnect-setup/5-skupper-interface.png](images/7-interconnect-setup/5-skupper-interface.png)
@@ -132,7 +132,7 @@ export KUBECONFIG=$HOME/.kube/config-aro
 oc project aro-dashboard
 skupper token create ~/aro.token
 ```
-Use that token in ARO as follows:
+Use that token in ROSA as follows:
 ```
 export KUBECONFIG=$HOME/.kube/config-rosa
 oc project a-dashboard
@@ -152,10 +152,26 @@ skupper expose deployment/minio-ml-workshop  --port 9000
 
 Now on ROSA's Application Interconnect (Skupper) web interface, click **Network**. You'll see the respective namespaces connected from ROSA to ARO: ![images/7-interconnect-setup/7-skupper-network-active-rosa.png](images/7-interconnect-setup/7-skupper-network-active-rosa.png)
 
-Click on the Services tab and you'll see the *minio-ml-workshop* under management by *Application Interconnect (Skupper)*
-![images/7-interconnect-setup/8-skupper-services-active-rosa.png](images/7-interconnect-setup/8-skupper-services-active-rosa.pngg)
+Click on the Services tab and you'll see the *minio-ml-workshop* service under management by *Application Interconnect (Skupper)*
+![images/7-interconnect-setup/8-skupper-services-active-rosa.png](images/7-interconnect-setup/8-skupper-services-active-rosa.png)
 
+The same *Network* and *Services* visualisations are available in the *Application Interconnect (Skupper)* web interface on ARO.
 
 ## 7 - Scale down the old dashboard
 
-You can now scale down the initial dashboard deployed in the first cluster.
+You can now scale down the initial ROSA based dashboard - in order to save resources.
+Now in ROSA, navigate back to **Developer Perspective > Topology**, ensure the *a-dashboard* project is selected and click on the **Dashboard* circular icon.
+
+![images/7-interconnect-setup/9-rosa-topology-dashboard-click.png](images/7-interconnect-setup/9-rosa-topology-dashboard-click.png)
+
+
+You'll see the deployment view. Click the **Details** tab
+
+![images/7-interconnect-setup/10-rosa-dashboard-deployment.png](images/7-interconnect-setup/10-rosa-dashboard-deployment.png)
+
+
+Click the down arrow to scale down the ROSA dashboard to zero pods to take it out of comission and consume zero resources.
+![images/7-interconnect-setup/11-rosa-dashboard-deployment-scale-down.png](images/7-interconnect-setup/11-rosa-dashboard-deployment-scale-down.png)
+
+
+
