@@ -177,4 +177,4 @@ Click the down arrow to scale down the ROSA dashboard to zero pods to take it ou
 
 You're now ready to run the Multi-Cloud / Multi-Cluster version of the demo, using *Application Interconnect (Skupper)*
 
-To do that, open the next document []()!
+To do that, open the next document [https://github.com/odh-labs/predictive-maint/blob/main/docs/image-detection-4-interconnect-demo.md](https://github.com/odh-labs/predictive-maint/blob/main/docs/image-detection-4-interconnect-demo.md)
