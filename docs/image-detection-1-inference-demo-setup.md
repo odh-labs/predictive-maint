@@ -228,9 +228,10 @@ Now we have the project selected, we can do our installs.
      
      <img src="images/2-setup/image31.png" width="300"/>
    
-   - 
+   - You should see this image-prediction by default. If not Navigate to *Buckets* on the left and then to it.
 
-
+    ![images/2-setup/image32.png](images/2-setup/image32.png)
+ 
 
 3. Next we deploy our controlling application that pulls images from Kafka, calls the AI and pushes the results to object storage. Run the following in a terminal:
   ```
