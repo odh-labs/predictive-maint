@@ -90,9 +90,9 @@ Install Application Interconnect (Skupper) in Openshift namespaces within each o
 - your original ROSA cluster
 - your new ARO cluster
 
-(As described in the [Application Interconnect (Skupper) installation guide](https://skupper.io/start/index.html))
+(To learn more, see [Application Interconnect (Skupper) installation guide](https://skupper.io/start/index.html), on which these instructions are based)
 
-Now initialise Application Interconnect (Skupper) on ARO. Run the following, that includes some login credentials (feel free to modify with your desired credentials)
+First we'll initialise Application Interconnect (Skupper) on ARO. Run the following, that includes some login credentials (feel free to modify with your desired credentials)
 ```
 export KUBECONFIG=$HOME/.kube/config-aro
 oc project aro-dashboard
