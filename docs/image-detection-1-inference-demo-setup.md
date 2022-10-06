@@ -232,7 +232,10 @@ Now we have the project selected, we can do our installs.
    ![images/2-setup/image32.png](images/2-setup/image32.png)
 
    - Access Policy is *private* by default. It needs to be *public*. Click the pencil to change it:
-   ![images/2-setup/image33.png](images/2-setup/image33.png)
+   <img src="images/2-setup/image33.png" width="400"/>
+
+   - Change it to *Public* and click **Set**
+   <img src="images/2-setup/image34.png" width="400"/>
 
  
 
