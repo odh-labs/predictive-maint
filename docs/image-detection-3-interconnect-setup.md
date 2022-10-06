@@ -148,9 +148,12 @@ oc project a-dashboard
 skupper expose deployment/minio-ml-workshop  --port 9000
 ```
 
-## 6 - Check the dashboard connects
+## 6 - View your connections on the dashboard
 
-Now find the dashboard and check it connects to the minio service
+Now on ROSA's Application Interconnect (Skupper) web interface, click **Network**. You'll see the respective namespaces connected from ROSA to ARO:
+![images/7-interconnect-setup/7-skupper-network-active-rosa.png](images/7-skupper-network-active-rosa.png)
+
+
 
 ## 7 - Scale down the old dashboard
 
