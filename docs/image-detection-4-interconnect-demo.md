@@ -16,7 +16,6 @@ Note what follows is almost identical to what you did when you ran this all in R
 
 
 
-
 ================================================================================================================================
 
 You should already have opened this page while [setting up the inference demo](https://github.com/odh-labs/predictive-maint/blob/main/docs/image-detection-1-inference-demo-setup.md). You should see yourself on the screen. 
