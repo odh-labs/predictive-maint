@@ -228,8 +228,11 @@ Now we have the project selected, we can do our installs.
      
      <img src="images/2-setup/image31.png" width="300"/>
    
-   - You should see this image-prediction by default. If not Navigate to *Buckets* on the left and then to it. 
+   - You should see this *image-prediction* bucket by default. If not Navigate to *Buckets* on the left and then to it. Click **Manage**
    ![images/2-setup/image32.png](images/2-setup/image32.png)
+
+   - Access Policy is *private* by default. It needs to be *public*. Click the pencil to change it:
+   ![images/2-setup/image33.png](images/2-setup/image33.png)
 
  
 
