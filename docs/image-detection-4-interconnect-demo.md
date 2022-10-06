@@ -1,6 +1,10 @@
-# Running the Interconnect Demo
+# Running the Application Interconnect (Skupper) Demo
 
-Note this is almost identical to what you did when you ran this all in ROSA in the earlier demo [Running the inference demo](https://github.com/odh-labs/predictive-maint/blob/main/docs/image-detection-2-inference-demo.md)
+Note what follows is almost identical to what you did when you ran this all in ROSA in the earlier demo [Running the inference demo](https://github.com/odh-labs/predictive-maint/blob/main/docs/image-detection-2-inference-demo.md). The only difference is we run the Dashboard in a different cluser (in ARO) as discussed earlier and as shown here:
+![images/7-interconnect-setup/2-overall-solution-dashboard-aro-interconnect.png](images/7-interconnect-setup/2-overall-solution-dashboard-aro-interconnect.png) 
+
+
+
 
 
 
