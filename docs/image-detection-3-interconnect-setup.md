@@ -124,7 +124,7 @@ Keep your Application Interconnect (Skupper) web interface open.
 
 
 Now On ROSA, do the exact same thing, this time with the ***a-dashboard*** project selected. Keep your Application Interconnect (Skupper) web interface open.
-![images/7-interconnect-setup/5-skupper-interface.png](images/7-interconnect-setup/5-skupper-interface.png)
+![images/7-interconnect-setup/6-skupper-interface-rosa.png](images/7-interconnect-setup/6-skupper-interface-rosa.png)
 
 Next you do the actual linking using the Skupper CLI. Create a token in ARO as follows:
 ```
