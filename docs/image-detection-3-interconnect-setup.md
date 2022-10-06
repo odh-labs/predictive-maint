@@ -116,6 +116,7 @@ On ARO, choose the Administrator view and select your aro-dashboard project. The
 ![images/7-interconnect-setup/3-skupper-route.png](images/7-interconnect-setup/3-skupper-route.png) 
 
 Enter the credentials *admin* and *admin1* (or your equivalents) and click **Sign In**
+
 <img src="images/7-interconnect-setup/4-skupper-credentials.png" width="400"/>
 
 You'll see an interface like this:
@@ -175,3 +176,5 @@ Click the down arrow to scale down the ROSA dashboard to zero pods to take it ou
 
 
 You're now ready to run the Multi-Cloud / Multi-Cluster version of the demo, using *Application Interconnect (Skupper)*
+
+To do that, open the next document []()!
