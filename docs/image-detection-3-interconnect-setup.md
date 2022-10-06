@@ -143,6 +143,8 @@ skupper link create ~/aro.token
 
 Expose the Minio service on ROSA with HTTP on port 9000 by executing the following.
 ```
+export KUBECONFIG=$HOME/.kube/config-rosa
+oc project a-dashboard
 skupper expose deployment/minio-ml-workshop  --port 9000
 ```
 
