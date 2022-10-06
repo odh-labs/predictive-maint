@@ -235,7 +235,7 @@ Now we have the project selected, we can do our installs.
     <img src="images/2-setup/image33.png" width="400"/>
 
    - Change it to *Public* and click **Set**
-    <img src="images/2-setup/image34.png" width="400"/>
+   <img src="images/2-setup/image34.png" width="400"/>
 
  
 
