@@ -174,4 +174,4 @@ Click the down arrow to scale down the ROSA dashboard to zero pods to take it ou
 ![images/7-interconnect-setup/11-rosa-dashboard-deployment-scale-down.png](images/7-interconnect-setup/11-rosa-dashboard-deployment-scale-down.png)
 
 
-
+You're now ready to run the Multi-Cloud / Multi-Cluster version of the demo, using *Application Interconnect (Skupper)*
