@@ -36,5 +36,5 @@ You should see this web page. Click start.
 
 ## 6 - Demo Complete
 
-Congratulations, you have completed the Multi-Cloud/Multi-Cluster realtime Edge-Cloud demo. Thanks to *Application Interconnect (Skupper)*, your dashboard is connecting securely over an encrypted connection back to your ROSA based Minio object, to retrieve in real time the count of what the AI Model has detected from the incoming images!
+Congratulations, you have completed the Multi-Cloud/Multi-Cluster realtime Edge-Cloud demo. Thanks to *Application Interconnect (Skupper)*, your dashboard is connecting securely over an encrypted connection back to your ROSA based Minio object storage, to retrieve in real time the count of what the AI Model has detected from the incoming images!
 
