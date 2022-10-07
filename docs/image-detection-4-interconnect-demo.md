@@ -31,7 +31,7 @@ You should see this web page. Click start.
 1 - With you in visible in the webcam in the ROSA based producer app, the *Person* counter will start incrementing.
 
 2 - Put your hand in front of the webcam so it can't see you. The *Background* counter will start incrementing.
-![images/8-interconnect-demo/2-open-dashboard-route.png](images/8-interconnect-demo/2-open-dashboard-route.png) 
+![images/8-interconnect-demo/3-dashboard-view.png](images/8-interconnect-demo/3-dashboard-view.png) 
 
 
 ## 6 - Demo Complete
