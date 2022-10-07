@@ -21,38 +21,20 @@ The page will begin capturing images and sending them to Kafka.
 ![images/2-setup/image20.png](images/2-setup/image20.png) 
 
 
+Now on your ARO cluster web interface, with the *aro-dashboard* project selected, navigate to **Developer Perspective > Toplogy** and click the Dashboard's **Route link** as shown:
+![images/8-interconnect-demo/2-open-dashboard-route.png](images/8-interconnect-demo/2-open-dashboard-route.png) 
 
 
 
+You should see this web page. Click start.
+
+1 - With you in visible in the webcam in the ROSA based producer app, the *Person* counter will start incrementing.
+
+2 - Put your hand in front of the webcam so it can't see you. The *Background* counter will start incrementing.
+![images/8-interconnect-demo/2-open-dashboard-route.png](images/8-interconnect-demo/2-open-dashboard-route.png) 
 
 
+## 6 - Demo Complete
 
-
-
-
-
-================================================================================================================================
-
-You should already have opened this page while [setting up the inference demo](https://github.com/odh-labs/predictive-maint/blob/main/docs/image-detection-1-inference-demo-setup.md). You should see yourself on the screen. 
-
-**Click start** 
-
-Keep yourself in the webcam frame. The page will begin capturing images and sending them to Kafka.
-![images/2-setup/image20.png](images/2-setup/image20.png) 
-
-
-## 2 - Start your Dashboard web page
-Now it's time to start your Dashboard web page - to detect what the AI model is detecting in real time
-
-
-You should already have opened this page while [setting up the inference demo](https://github.com/odh-labs/predictive-maint/blob/main/docs/image-detection-1-inference-demo-setup.md).
-
-**Click Start** 
-
-
-![images/2-setup/image29.png](images/2-setup/image29.png) 
-
-The page will begin polling S3 object storage for what the AI is detecting. As you are being captured, ***Person*** will start incrementing every second. 
-
-Put your hand in front of your webcam - so it's not seeing you. ***Background*** will start incrementing.
+Congratulations, you have completed the Multi-Cloud/Multi-Cluster realtime Edge-Cloud demo. Thanks to *Application Interconnect (Skupper)*, your dashboard is connecting securely over an encrypted connection back to your ROSA based Minio object, to retrieve in real time the count of what the AI Model has detected from the incoming images!
 
