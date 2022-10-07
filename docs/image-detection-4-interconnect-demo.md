@@ -18,7 +18,7 @@ You'll see youself on the screen.
 
 The page will begin capturing images and sending them to Kafka.
 
-![images/2-setup/image20.png](images/2-setup/image20.png) 
+![images/8-interconnect-demo/1-producer-view.png](images/8-interconnect-demo/1-producer-view.png)
 
 
 Now on your ARO cluster web interface, with the *aro-dashboard* project selected, navigate to **Developer Perspective > Toplogy** and click the Dashboard's **Route link** as shown:
