@@ -7,6 +7,20 @@ In ROSA, with the *a-producer* project selected, navigate to **Developer Perspec
 ![images/8-interconnect-demo/1-open-producer-route.png](images/8-interconnect-demo/1-open-producer-route.png) 
 
 
+You'll get a warning the application is trying to access your webcam - accept that warning.
+![images/2-setup/image19.png](images/2-setup/image19.png) 
+
+You'll see youself on the screen. 
+
+
+**Click start** 
+
+
+The page will begin capturing images and sending them to Kafka.
+**Click start** 
+![images/2-setup/image20.png](images/2-setup/image20.png) 
+
+
 
 
 
