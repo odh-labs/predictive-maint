@@ -3,7 +3,8 @@
 Note what follows is almost identical to what you did when you ran this all in ROSA in the earlier demo [Running the inference demo](https://github.com/odh-labs/predictive-maint/blob/main/docs/image-detection-2-inference-demo.md). The only difference is we run the Dashboard in a different cluser (in ARO) as discussed earlier and as shown here:
 ![images/7-interconnect-setup/2-overall-solution-dashboard-aro-interconnect.png](images/7-interconnect-setup/2-overall-solution-dashboard-aro-interconnect.png) 
 
-
+In ROSA, with the *a-producer* project selected, navigate to **Developer Perspective > Toplogy** and click the **Route link** as shown:
+![images/8-interconnect-demo/1-open-producer-route.png](images/8-interconnect-demo/1-open-producer-route.png) 
 
 
 
