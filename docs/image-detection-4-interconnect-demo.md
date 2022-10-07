@@ -16,7 +16,7 @@ You'll see youself on the screen.
 **Click start** 
 
 
-The page will begin capturing images and sending them to Kafka.
+The *Start* button will change to *Stop* page will begin capturing images and sending them to Kafka.
 
 ![images/8-interconnect-demo/1-producer-view.png](images/8-interconnect-demo/1-producer-view.png)
 
