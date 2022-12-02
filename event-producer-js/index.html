@@ -105,9 +105,6 @@
 
     <div>
         <div class="row">
-            <input id="type-text" type="text" value="" placeholder="Enter the URL">  
-        </div>
-        <div class="row">
             <input id="start-button" type="button" value="Start" onclick="start()" class="block">
             <input id="stop-button" type="button" value="Stop" onclick="stop()" class="block-red">
         </div>
@@ -206,7 +203,7 @@
                 photo.setAttribute('src', data);
                 console.log("faisal");
                 $.ajax({
-                  url: `http://${document.getElementById('type-text').value}`, // Arslan Changed here
+                  url: '/send',
                   type: 'POST',
                   data: btoa(imgData),
                   dataType: 'text',
