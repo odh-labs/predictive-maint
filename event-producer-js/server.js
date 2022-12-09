@@ -105,7 +105,7 @@ const requestListener = async function (req, res) {
                   return;
         }
       
-        if (fs.statSync(filename).isDirectory()) filename += '/index.html';
+        if (fs.statSync(filename).isDirectory()) filename += '/indexv1.html';
       
         fs.readFile(filename, "binary", function(err, file) {
           if(err) {        
